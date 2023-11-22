@@ -3,30 +3,33 @@
 
 #include <iostream>
 #include <vector>
+#include <random>
+#include <functional>
 
-class Particle {
-	public:
-		Particle(int n, int lower_bound, int upper_bound);
-		~Particle();
+typedef std::vector<double> Vector;
 
-		/* Initialize the particle velocity and position accorting to uniform distribution
-		*/
-		int initialize(double lower_bound, double upper_bound);
-		int update_velocity(std::vector<double> global_best_position, double w, double c1, double c2);
-		int update_position();
-		int evaluate();
-		int print();
+class Particle
+{
 
-		std::vector<double> get_position();
-		std::vector<double> get_velocity();
-		std::vector<double> get_best_position();
-		double get_best_value();
+private:
+	Vector _position;
+	Vector _velocity;
+	Vector _best_position;
+	double _best_value;
+	std::function<double(Vector)> _fitness_function;
+	// TODO chiedere fitness function da utilizzare e come passarla;
+public:
+	Particle(const int dim, const bool inertia, const std::function<double(Vector)> fitness_function) : _position(dim), _velocity(dim), _best_position(dim), _fitness_function(fitness_function){};
+	~Particle();
 
-	private:
-		std::vector<double> position;
-		std::vector<double> velocity;
-		std::vector<double> best_position;
-		double best_value;
+	/* Initialize the particle velocity and position accorting to uniform distribution
+	 */
+	int initialize(const double &lower_bound, const double &upper_bound);
+	// Funzione che aggiorna la velocità e la posizione della particella
+	double update(const Vector &global_best_position, const float &w, const float &c1, const float &c2, const Vector &r1, const Vector &r2);
+	void print();
+
+	Vector get_best_position();
 };
 
 #endif
