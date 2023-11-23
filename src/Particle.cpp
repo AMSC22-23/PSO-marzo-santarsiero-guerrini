@@ -23,9 +23,23 @@ int Particle::initialize(const double &lower_bound, const double &upper_bound)
 }
 
 double Particle::update(const Vector &global_best_position, const float &w, const float &c1, const float &c2, const Vector &r1, const Vector &r2) {
-    //TODO: implement velocity update
+    
+    // Velocity update
+    for (size_t i = 0; i < _velocity.size(); ++i) {
+        _velocity[i] = w * _velocity[i] + c1 * r1[i] * (_best_position[i] - _position[i]) + c2 * r2[i] * (global_best_position[i] - _position[i]);
+    }
 
-    //TODO: implement position update
+    // Position update
+    for (size_t i = 0; i < _position.size(); ++i) {
+        _position[i] += _velocity[i];
+    }
+
+    // Update best position if necessary
+    double current_value = _fitness_function(_position);
+    if (current_value < _best_value) {
+        _best_position = _position;
+        _best_value = current_value;
+    }
 
     return 0.0;
 }
