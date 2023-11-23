@@ -59,7 +59,7 @@ const Vector& Particle::get_best_position() const {
 
 
 // particle class test
-int main()
+int main_test()
 {
     std::cout << "Particle class test: start" << std::endl;
     std::cout << "-> Initialize particle" << std::endl;
