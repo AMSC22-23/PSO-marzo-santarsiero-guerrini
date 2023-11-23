@@ -11,7 +11,8 @@ set(PROJ_NAME
 
 # set libraries names
 set(LIBRARIES
-	#TODO: add libraries here
+    Particle
+    ParticleSwarmOptimization
 )
 
 # set project name and version
@@ -37,4 +38,4 @@ add_executable(${PROJ_NAME}
 )
 
 # link libraries to project
-# target_link_libraries(${PROJ_NAME} ${LIBRARIES})
+target_link_libraries(${PROJ_NAME} ${LIBRARIES})
