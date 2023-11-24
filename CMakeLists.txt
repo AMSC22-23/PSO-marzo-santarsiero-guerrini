@@ -13,6 +13,7 @@ set(PROJ_NAME
 set(LIBRARIES
     Particle
     ParticleSwarmOptimization
+    TestFunctions
 )
 
 # set project name and version
