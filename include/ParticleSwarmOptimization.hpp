@@ -18,13 +18,21 @@ private:
 	Vector _global_best_postion;
 	std::vector<Particle> _swarm;
 public:
-	ParticleSwarmOptimization(int n, int lower_bound, int upper_bound, int max_iter);
+	ParticleSwarmOptimization(std::function<double(std::vector<double>)> fitness_function, int lower_bound, int upper_bound, int dim, int n, int max_iter);
 	~ParticleSwarmOptimization();
 
-	/* row 1 to 9 pseudocode */
+	// row 1 to 9 pseudocode
 	int initialize();
-	/* row 10 to 21 */
+	// row 10 to 21
 	int optimize();
+
+	// getters for results
+	double get_global_best_value() const;
+	const Vector& get_global_best_position() const;
+	int get_iter() const;
+	double get_tolerance() const;
+
+	void print() const;
 
 };
 
