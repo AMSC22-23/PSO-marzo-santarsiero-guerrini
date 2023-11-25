@@ -9,21 +9,44 @@
 #include <cmath>
 
 namespace TestFunctions {
-	// Returns a function object that computes the sphere function
+	// N-dimensional sphere function
 	// Global minimum at f(0,...,0) = 0
-	std::function<double(std::vector<double>)> sphere();
+	const std::function<double(std::vector<double>)> sphere =
+		[](std::vector<double> x) {
+			double sum = 0.0;
+			for (auto &i : x) {
+				sum += i * i;
+			}
+			return sum;
+		};
 
-	// Returns a function object that computes the rastrigin function
+	// N-dimensional rastrigin function
 	// Global minimum at f(0,...,0) = 0
-	std::function<double(std::vector<double>)> rastrigin();
+	const std::function<double(std::vector<double>)> rastrigin =
+		[](std::vector<double> x) {
+		double sum = 0.0;
+		for (auto &i : x) {
+			sum += (i * i - 10 * cos(2 * M_PI * i));
+		}
+		return 10 * x.size() + sum;
+		};
 
-	// Returns a function object that computes the ackley function
+	// N-dimensional ackley function
 	// Global minimum at f(0,...,0) = 0
-	std::function<double(std::vector<double>)> ackley();
+	const std::function<double(std::vector<double>)> ackley =
+		[](std::vector<double> x) {
+		double sum1 = 0.0;
+		double sum2 = 0.0;
+		for (auto &i : x) {
+			sum1 += i * i;
+			sum2 += cos(2 * M_PI * i);
+		}
+		return -20 * exp(-0.2 * sqrt(sum1 / x.size())) - exp(sum2 / x.size()) + 20 + M_E;
+		};
 
 
 	// Returns domain bounds for a given function
-	std::pair<double, double> get_bounds(const std::string& function_name);
+	const std::pair<double, double> get_bounds(const std::string& f);
 };
 
 #endif
