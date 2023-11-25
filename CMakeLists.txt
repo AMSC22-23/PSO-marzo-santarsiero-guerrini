@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10...3.27 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 
 # set C++ version requirements
 set(CMAKE_CXX_STANDARD 20)
@@ -38,5 +38,10 @@ add_executable(${PROJ_NAME}
     src/main.cpp
 )
 
+find_package(OpenMP)
 # link libraries to project
-target_link_libraries(${PROJ_NAME} ${LIBRARIES})
+if(OpenMP_CXX_FOUND)
+    target_link_libraries(${PROJ_NAME} PUBLIC  ${LIBRARIES} OpenMP::OpenMP_CXX)
+else()
+    target_link_libraries(${PROJ_NAME} ${LIBRARIES})
+endif()
