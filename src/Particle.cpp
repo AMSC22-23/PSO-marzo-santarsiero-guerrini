@@ -20,7 +20,6 @@ double Particle::initialize(const double &lower_bound, const double &upper_bound
     // initialize the best value
     _best_value = _fitness_function(_best_position);
     return _best_value; 
-    //TODO: deve ritornare _best_value
 }
 
 double Particle::update(const Vector &global_best_position, const float &w, const float &c1, const float &c2) {

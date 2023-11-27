@@ -19,7 +19,6 @@ private:
 	Vector _r1;
 	Vector _r2;
 	std::function<double(Vector)> _fitness_function;
-	// TODO chiedere fitness function da utilizzare e come passarla;
 public:
 	Particle(const int dim, const bool inertia, const std::function<double(Vector)>& fitness_function);
 	~Particle() = default;
