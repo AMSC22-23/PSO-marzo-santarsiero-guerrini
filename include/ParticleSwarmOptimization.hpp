@@ -9,17 +9,19 @@ class ParticleSwarmOptimization
 {
 private:
 	int _n;
+	int _dim;
 	int _lower_bound;
 	int _upper_bound;
 	int _max_iter;
 	double _tolerance;
 	float _intertia_weight;
 	float _c1, _c2;
-	Vector _global_best_postion;
+	Vector _global_best_position;
+	double _global_best_value;
 	std::vector<Particle> _swarm;
 public:
-	ParticleSwarmOptimization(int n, int lower_bound, int upper_bound, int max_iter);
-	~ParticleSwarmOptimization();
+	ParticleSwarmOptimization(int n, int dim, int lower_bound, int upper_bound, int max_iter, double _tolerance, float _inertia_weight, float _c1, float _c2);
+	~ParticleSwarmOptimization() = default;
 
 	/* row 1 to 9 pseudocode */
 	int initialize();

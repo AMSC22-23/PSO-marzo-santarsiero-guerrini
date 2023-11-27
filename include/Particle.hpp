@@ -6,7 +6,6 @@
 #include <random>
 #include <functional>
 
-//prova
 typedef std::vector<double> Vector;
 
 class Particle
@@ -17,6 +16,8 @@ private:
 	Vector _velocity;
 	Vector _best_position;
 	double _best_value;
+	Vector _r1;
+	Vector _r2;
 	std::function<double(Vector)> _fitness_function;
 	// TODO chiedere fitness function da utilizzare e come passarla;
 public:
@@ -24,10 +25,10 @@ public:
 	~Particle() = default;
 
 	//Initialize the particle velocity and position accorting to uniform distribution
-	int initialize(const double &lower_bound, const double &upper_bound);
+	double initialize(const double &lower_bound, const double &upper_bound);
+	
 	// Update velocity and position of the particle
-
-	double update(const Vector &global_best_position, const float &w, const float &c1, const float &c2, const Vector &r1, const Vector &r2);
+	double update(const Vector &global_best_position, const float &w, const float &c1, const float &c2);
 	void print() const;
 
 	const Vector& get_best_position() const;
