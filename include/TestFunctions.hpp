@@ -6,6 +6,7 @@
 #include <functional>
 #include <iostream>
 #include <vector>
+#include <math.h>
 #include <cmath>
 
 namespace TestFunctions {

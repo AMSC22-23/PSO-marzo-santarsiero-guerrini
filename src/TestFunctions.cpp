@@ -18,7 +18,7 @@ const std::pair<double, double> TestFunctions::get_bounds(const std::string& fun
 }
 
 
-int main_test()
+/*int main()
 {
 	// check if the functions returns f(0,...,0) ~ 0
 	auto a = TestFunctions::sphere;
@@ -37,4 +37,4 @@ int main_test()
 	std::cout << bounds.first << " " << bounds.second << std::endl;
 
 	return 0;
-}
+}*/
