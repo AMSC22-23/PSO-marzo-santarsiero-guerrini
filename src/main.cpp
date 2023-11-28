@@ -5,9 +5,9 @@
 // hello world main
 int main(int argc, char** argv) {
 	// Sphere function optimization
-	std::cout << "Sphere optimization" << std::endl;
+	std::cout << "Sphere optimization:" << std::endl;
 	std::pair<double, double> bounds = TestFunctions::get_bounds("sphere");
-	ParticleSwarmOptimization pso(TestFunctions::sphere, bounds.first, bounds.second, 2, 100, 1000);
+	ParticleSwarmOptimization pso(TestFunctions::sphere, 50, 2, bounds.first, bounds.second, 1000, 10e-6, 0.4, 0.9, 2.0);
 	pso.initialize();
 	int status = pso.optimize();
 	std::cout << "Status: " << status << std::endl;
