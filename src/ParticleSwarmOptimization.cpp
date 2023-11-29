@@ -46,14 +46,35 @@ int ParticleSwarmOptimization::optimize() {
     }
     current_iter++;
 
-    // log
+    /*// log
     std::cout << "Best value: " << _global_best_value;
     std::cout << "\tBest position:\t(";
     for (auto &i : _global_best_position) {
       std::cout << i << ", ";
     }
     std::cout << "\b\b)" << std::endl;
-    // end log
+    // end log*/
+  }
+  return 0;
+}
+
+int ParticleSwarmOptimization::optimize_parallel() {
+  int current_iter = 0;
+  double temp_value = 0.0;
+  while (current_iter < _max_iter) {
+    #pragma omp parallel for reduction(min: _global_best_value) shared(_global_best_position)
+    for (auto &particle : _swarm) {
+      // update particle position
+      temp_value =
+          particle.update(_global_best_position, _intertia_weight, _c1, _c2);
+      // update global best position
+      if (temp_value < _global_best_value) {
+        _global_best_value = temp_value;
+        #pragma omp atomic
+        _global_best_position = particle.get_best_position();
+      }
+    }
+    current_iter++;
   }
   return 0;
 }

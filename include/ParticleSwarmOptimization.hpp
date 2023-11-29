@@ -28,6 +28,7 @@ public:
 	int initialize();
 	/* row 10 to 21 */
 	int optimize();
+	int optimize_parallel();
 
 	// getters
 	const Vector& get_global_best_position() const { return _global_best_position; }
