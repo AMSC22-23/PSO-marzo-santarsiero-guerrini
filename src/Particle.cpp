@@ -1,19 +1,25 @@
-#include "../include/Particle.hpp"
 
-Particle::Particle(const int dim, const std::function<double(Vector)>& fitness_function, const double &lower_bound, const double &upper_bound)
-    : _position(dim), _velocity(dim), _best_position(dim), _fitness_function(fitness_function), _r1(dim), _r2(dim),
-        _lower_bound(lower_bound), _upper_bound(upper_bound)
-{}
+//#include "../include/Particle.hpp"
 
-double Particle::initialize()
+template <std::size_t dim>
+Particle<dim>::Particle(const std::function<double(std::array<double, dim>)> &fitness_function, const double &lower_bound, const double &upper_bound)
+    : _fitness_function(fitness_function),
+      _lower_bound(lower_bound), _upper_bound(upper_bound)
+{
+}
+
+template <std::size_t dim>
+double Particle<dim>::initialize()
 {
     // create the uniform double generator in the range [lower_bound, upper_bound]
     std::random_device rand_dev;
     std::mt19937 generator(rand_dev());
     std::uniform_real_distribution<double> distr(_lower_bound, _upper_bound);
     // initialize the position and velocity vectors
-    std::generate(_position.begin(), _position.end(), [&]() { return distr(generator); });
-    std::generate(_velocity.begin(), _velocity.end(), [&]() { return distr(generator); });
+    std::generate(_position.begin(), _position.end(), [&]()
+                  { return distr(generator); });
+    std::generate(_velocity.begin(), _velocity.end(), [&]()
+                  { return distr(generator); });
     // initialize the best position
     _best_position = _position;
     // initialize the best value
@@ -21,24 +27,30 @@ double Particle::initialize()
     return _best_value;
 }
 
-double Particle::update(const Vector &global_best_position, const double &w, const double &c1, const double &c2) {
+template <std::size_t dim>
+double Particle<dim>::update(const Vector &global_best_position, const double &w, const double &c1, const double &c2)
+{
 
-    //TODO: esternalizzare in un metodo le seguenti righe di codice, usate anche in Particle::initialize()
-    // create the uniform double generator in the range [lower_bound, upper_bound]
+    // TODO: esternalizzare in un metodo le seguenti righe di codice, usate anche in Particle::initialize()
+    //  create the uniform double generator in the range [lower_bound, upper_bound]
     std::random_device rand_dev;
     std::mt19937 generator(rand_dev());
-    std::uniform_real_distribution<double> distr(0,1);
+    std::uniform_real_distribution<double> distr(0, 1);
     // initialize the position and velocity vectors
-    std::generate(_r1.begin(), _r1.end(), [&]() { return distr(generator); });
-    std::generate(_r2.begin(), _r2.end(), [&]() { return distr(generator); });
+    std::generate(_r1.begin(), _r1.end(), [&]()
+                  { return distr(generator); });
+    std::generate(_r2.begin(), _r2.end(), [&]()
+                  { return distr(generator); });
 
     // Velocity update
-    for (size_t i = 0; i < _velocity.size(); ++i) {
+    for (std::size_t i = 0; i < _velocity.size(); ++i)
+    {
         _velocity[i] = w * _velocity[i] + c1 * _r1[i] * (_best_position[i] - _position[i]) + c2 * _r2[i] * (global_best_position[i] - _position[i]);
     }
 
     // Position update
-    for (size_t i = 0; i < _position.size(); ++i) {
+    for (std::size_t i = 0; i < _position.size(); ++i)
+    {
         _position[i] += _velocity[i];
         // check boundaries
         if (_position[i] < _lower_bound)
@@ -49,7 +61,8 @@ double Particle::update(const Vector &global_best_position, const double &w, con
 
     // Update best position if necessary
     double current_value = _fitness_function(_position);
-    if (current_value < _best_value) {
+    if (current_value < _best_value)
+    {
         _best_position = _position;
         _best_value = current_value;
     }
@@ -57,21 +70,26 @@ double Particle::update(const Vector &global_best_position, const double &w, con
     return _best_value;
 }
 
-void Particle::print() const {
+template <std::size_t dim>
+void Particle<dim>::print() const
+{
     std::cout << "Position:\t(";
-    for (auto &i : _position) {
+    for (auto &i : _position)
+    {
         std::cout << i << ", ";
     }
     std::cout << "\b\b)" << std::endl;
 
     std::cout << "Velocity:\t(";
-    for (auto &i : _velocity) {
+    for (auto &i : _velocity)
+    {
         std::cout << i << ", ";
     }
     std::cout << "\b\b)" << std::endl;
 
     std::cout << "Best position:\t(";
-    for (auto &i : _best_position) {
+    for (auto &i : _best_position)
+    {
         std::cout << i << ", ";
     }
     std::cout << "\b\b)" << std::endl;
@@ -79,7 +97,6 @@ void Particle::print() const {
     std::cout << "Best value:\t" << _best_value << std::endl;
     std::cout << std::endl;
 }
-
 
 // particle class test
 /*int main()

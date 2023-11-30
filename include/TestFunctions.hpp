@@ -5,49 +5,29 @@
 
 #include <functional>
 #include <iostream>
-#include <vector>
+#include <array>
 #include <math.h>
 #include <cmath>
 
-namespace TestFunctions {
+namespace TestFunctions
+{
 	// N-dimensional sphere function
 	// Global minimum at f(0,...,0) = 0
-	const std::function<double(std::vector<double>)> sphere =
-		[](std::vector<double> x) {
-			double sum = 0.0;
-			for (auto &i : x) {
-				sum += i * i;
-			}
-			return sum;
-		};
+	template <std::size_t dim>
+	const double sphere(std::array<double, dim> x);
 
 	// N-dimensional rastrigin function
 	// Global minimum at f(0,...,0) = 0
-	const std::function<double(std::vector<double>)> rastrigin =
-		[](std::vector<double> x) {
-		double sum = 0.0;
-		for (auto &i : x) {
-			sum += (i * i - 10 * cos(2 * M_PI * i));
-		}
-		return 10 * x.size() + sum;
-		};
+	template <std::size_t dim>
+	const double rastrigin(std::array<double, dim> x);
 
 	// N-dimensional ackley function
 	// Global minimum at f(0,...,0) = 0
-	const std::function<double(std::vector<double>)> ackley =
-		[](std::vector<double> x) {
-		double sum1 = 0.0;
-		double sum2 = 0.0;
-		for (auto &i : x) {
-			sum1 += i * i;
-			sum2 += cos(2 * M_PI * i);
-		}
-		return -20 * exp(-0.2 * sqrt(sum1 / x.size())) - exp(sum2 / x.size()) + 20 + M_E;
-		};
-
+	template <std::size_t dim>
+	const double ackley(std::array<double, dim> x);
 
 	// Returns domain bounds for a given function
-	const std::pair<double, double> get_bounds(const std::string& f);
+	const std::pair<double, double> get_bounds(const std::string &f);
 };
 
 #endif

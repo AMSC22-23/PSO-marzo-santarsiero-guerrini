@@ -2,14 +2,16 @@
 #define PARTICLE_HPP
 
 #include <iostream>
-#include <vector>
+#include <array>
 #include <random>
 #include <functional>
 
-typedef std::vector<double> Vector;
+// define a template for dim
+template <std::size_t dim>
 
 class Particle
 {
+	typedef std::array<double, dim> Vector;
 
 private:
 	Vector _position;
@@ -20,23 +22,24 @@ private:
 	Vector _r2;
 	double _lower_bound;
 	double _upper_bound;
-	std::function<double(Vector)> _fitness_function;
+	const std::function<double(Vector)> &_fitness_function;
+
 public:
-	Particle(const int dim, const std::function<double(Vector)>& fitness_function, const double &lower_bound, const double &upper_bound);
+	Particle(const std::function<double(std::array<double, dim>)> &fitness_function, const double &lower_bound, const double &upper_bound);
 	~Particle() = default;
 
-	//Initialize the particle velocity and position accorting to uniform distribution
+	// Initialize the particle velocity and position accorting to uniform distribution
 	double initialize();
 
 	// Update velocity and position of the particle
 	double update(const Vector &global_best_position, const double &w, const double &c1, const double &c2);
 	void print() const;
 
-
 	// getters
-	const Vector& get_position() const { return _position; }
-	const double& get_best_value() const { return _best_value; }
-	const Vector& get_best_position() const { return _best_position; }
+	const Vector &get_position() const { return _position; }
+	const double &get_best_value() const { return _best_value; }
+	const Vector &get_best_position() const { return _best_position; }
 };
 
+#include "../src/Particle.cpp"
 #endif

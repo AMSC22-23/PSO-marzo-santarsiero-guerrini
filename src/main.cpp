@@ -3,13 +3,15 @@
 #include <iostream>
 #include <chrono>
 
+#define dimension 2
+
 // hello world main
 int main(int argc, char** argv) {
 
 	// Sphere function optimization
 	std::cout << "Sphere optimization:" << std::endl;
 	std::pair<double, double> bounds = TestFunctions::get_bounds("sphere");
-	ParticleSwarmOptimization pso(TestFunctions::sphere, 50, 2, bounds.first, bounds.second, 10000, 10e-6, 0.4, 0.9, 2.0);
+	ParticleSwarmOptimization<dimension> pso(TestFunctions::sphere<dimension>, 50, bounds.first, bounds.second, 10000, 10e-6, 0.4, 0.9, 2.0);
 	pso.initialize();
 	auto t1 = std::chrono::high_resolution_clock::now();
 	int status = pso.optimize();
@@ -20,7 +22,7 @@ int main(int argc, char** argv) {
 	std::cout << "Iterations: " << pso.get_iter() << std::endl;
 	std::cout << "Tolerance: " << pso.get_tolerance() << std::endl;
 	std::cout << std::endl;
-	ParticleSwarmOptimization pso1(TestFunctions::sphere, 50, 2, bounds.first, bounds.second, 10000, 10e-6, 0.4, 0.9, 2.0);
+	ParticleSwarmOptimization<dimension> pso1(TestFunctions::sphere<dimension>, 50, bounds.first, bounds.second, 10000, 10e-6, 0.4, 0.9, 2.0);
 	pso1.initialize();
 	auto t3 = std::chrono::high_resolution_clock::now();
 	status = pso1.optimize_parallel();
