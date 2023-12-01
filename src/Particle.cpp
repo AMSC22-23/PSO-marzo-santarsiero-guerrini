@@ -1,28 +1,29 @@
 
-//#include "../include/Particle.hpp"
+// #include "../include/Particle.hpp"
 
 template <std::size_t dim>
-Particle<dim>::Particle(const std::function<double(std::array<double, dim>)> &fitness_function, const double &lower_bound, const double &upper_bound)
+Particle<dim>::Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
+                        const double &lower_bound, const double &upper_bound, std::mt19937 &random_generator)
     : _fitness_function(fitness_function),
-      _lower_bound(lower_bound), _upper_bound(upper_bound)
+      _lower_bound(lower_bound),
+      _upper_bound(upper_bound),
+      _random_generator(random_generator)
 {
 }
 
 template <std::size_t dim>
 double Particle<dim>::initialize()
 {
-    // create the uniform double generator in the range [lower_bound, upper_bound]
-    std::random_device rand_dev;
-    std::mt19937 generator(rand_dev());
+    // Create the uniform double generator in the range [lower_bound, upper_bound]
     std::uniform_real_distribution<double> distr(_lower_bound, _upper_bound);
-    // initialize the position and velocity vectors
+    // Initialize the position and velocity vectors
     std::generate(_position.begin(), _position.end(), [&]()
-                  { return distr(generator); });
+                  { return distr(_random_generator); });
     std::generate(_velocity.begin(), _velocity.end(), [&]()
-                  { return distr(generator); });
-    // initialize the best position
+                  { return distr(_random_generator); });
+    // Initialize the best position
     _best_position = _position;
-    // initialize the best value
+    // Initialize the best value
     _best_value = _fitness_function(_best_position);
     return _best_value;
 }
@@ -30,29 +31,23 @@ double Particle<dim>::initialize()
 template <std::size_t dim>
 double Particle<dim>::update(const Vector &global_best_position, const double &w, const double &c1, const double &c2)
 {
-
-    // TODO: esternalizzare in un metodo le seguenti righe di codice, usate anche in Particle::initialize()
-    //  create the uniform double generator in the range [lower_bound, upper_bound]
-    std::random_device rand_dev;
-    std::mt19937 generator(rand_dev());
+    //  Create the uniform double generator in the range [lower_bound, upper_bound]
     std::uniform_real_distribution<double> distr(0, 1);
-    // initialize the position and velocity vectors
+    // Initialize the position and velocity vectors
     std::generate(_r1.begin(), _r1.end(), [&]()
-                  { return distr(generator); });
+                  { return distr(_random_generator); });
     std::generate(_r2.begin(), _r2.end(), [&]()
-                  { return distr(generator); });
+                  { return distr(_random_generator); });
 
-    // Velocity update
+    // For each dimension
     for (std::size_t i = 0; i < _velocity.size(); ++i)
     {
+        // Velocity update
         _velocity[i] = w * _velocity[i] + c1 * _r1[i] * (_best_position[i] - _position[i]) + c2 * _r2[i] * (global_best_position[i] - _position[i]);
-    }
 
-    // Position update
-    for (std::size_t i = 0; i < _position.size(); ++i)
-    {
+        // Position update
         _position[i] += _velocity[i];
-        // check boundaries
+        // Check boundaries
         if (_position[i] < _lower_bound)
             _position[i] = _lower_bound;
         else if (_position[i] > _upper_bound)

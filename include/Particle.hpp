@@ -23,9 +23,11 @@ private:
 	double _lower_bound;
 	double _upper_bound;
 	const std::function<double(Vector)> &_fitness_function;
+	std::mt19937 &_random_generator;
 
 public:
-	Particle(const std::function<double(std::array<double, dim>)> &fitness_function, const double &lower_bound, const double &upper_bound);
+	Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
+			 const double &lower_bound, const double &upper_bound, std::mt19937 &random_generator);
 	~Particle() = default;
 
 	// Initialize the particle velocity and position accorting to uniform distribution

@@ -18,9 +18,11 @@ ParticleSwarmOptimization<dim>::ParticleSwarmOptimization(
 template <std::size_t dim>
 int ParticleSwarmOptimization<dim>::initialize()
 {
+    std::random_device rand_dev;
+    std::mt19937 generator(rand_dev());
     for (int i = 0; i < _n; i++)
     {
-        _swarm.emplace_back(_fitness_function, _lower_bound, _upper_bound);
+        _swarm.emplace_back(_fitness_function, _lower_bound, _upper_bound, generator);
         double current_fitness = _swarm.back().initialize();
         if (i == 0)
         {
