@@ -30,4 +30,5 @@ namespace TestFunctions
 	const std::pair<double, double> get_bounds(const std::string &f);
 };
 
+#include "../src/TestFunctions.cpp"
 #endif

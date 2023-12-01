@@ -9,11 +9,8 @@ set(PROJ_NAME
     PSO
 )
 
-# set libraries names
+# set libraries names (no libraries without templates)
 set(LIBRARIES
-    Particle
-    ParticleSwarmOptimization
-    TestFunctions
 )
 
 # set project name and version
@@ -25,7 +22,7 @@ project(
 # set include directory
 include_directories(/include)
 
-# iterate over libraries and add them
+#iterate over libraries and add them (not needed)
 foreach(LIBRARY ${LIBRARIES})
     add_library(${LIBRARY}
         include/${LIBRARY}.hpp

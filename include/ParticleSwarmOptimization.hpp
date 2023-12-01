@@ -7,7 +7,6 @@
 #include "Particle.hpp"
 
 template <std::size_t dim>
-
 class ParticleSwarmOptimization
 {
 	typedef std::array<double, dim> Vector;
