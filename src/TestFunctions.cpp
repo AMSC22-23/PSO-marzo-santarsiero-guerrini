@@ -3,7 +3,7 @@
 // N-dimensional sphere function
 // Global minimum at f(0,...,0) = 0
 template <std::size_t dim>
-const double TestFunctions::sphere(std::array<double, dim> x)
+double TestFunctions::sphere(std::array<double, dim> x)
 {
 	double sum = 0.0;
 	for (auto &i : x)
@@ -16,7 +16,7 @@ const double TestFunctions::sphere(std::array<double, dim> x)
 // N-dimensional rastrigin function
 // Global minimum at f(0,...,0) = 0
 template <std::size_t dim>
-const double TestFunctions::rastrigin(std::array<double, dim> x)
+double TestFunctions::rastrigin(std::array<double, dim> x)
 {
 	double sum = 0.0;
 	for (auto &i : x)
@@ -29,7 +29,7 @@ const double TestFunctions::rastrigin(std::array<double, dim> x)
 // N-dimensional ackley function
 // Global minimum at f(0,...,0) = 0
 template <std::size_t dim>
-const double TestFunctions::ackley(std::array<double, dim> x)
+double TestFunctions::ackley(std::array<double, dim> x)
 {
 	double sum1 = 0.0;
 	double sum2 = 0.0;

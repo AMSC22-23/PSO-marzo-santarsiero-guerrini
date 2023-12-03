@@ -14,17 +14,17 @@ namespace TestFunctions
 	// N-dimensional sphere function
 	// Global minimum at f(0,...,0) = 0
 	template <std::size_t dim>
-	const double sphere(std::array<double, dim> x);
+	double sphere(std::array<double, dim> x);
 
 	// N-dimensional rastrigin function
 	// Global minimum at f(0,...,0) = 0
 	template <std::size_t dim>
-	const double rastrigin(std::array<double, dim> x);
+	double rastrigin(std::array<double, dim> x);
 
 	// N-dimensional ackley function
 	// Global minimum at f(0,...,0) = 0
 	template <std::size_t dim>
-	const double ackley(std::array<double, dim> x);
+	double ackley(std::array<double, dim> x);
 
 	// Returns domain bounds for a given function
 	const std::pair<double, double> get_bounds(const std::string &f);

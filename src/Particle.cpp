@@ -8,8 +8,7 @@ Particle<dim>::Particle(const std::function<double(std::array<double, dim>)> &fi
       _lower_bound(lower_bound),
       _upper_bound(upper_bound),
       _random_generator(random_generator)
-{
-}
+{}
 
 template <std::size_t dim>
 double Particle<dim>::initialize()

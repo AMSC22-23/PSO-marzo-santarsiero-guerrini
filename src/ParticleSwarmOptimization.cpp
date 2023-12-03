@@ -3,17 +3,19 @@
 template <std::size_t dim>
 ParticleSwarmOptimization<dim>::ParticleSwarmOptimization(
     const std::function<double(std::array<double, dim>)> &fitness_function, int n,
-    double lower_bound, double upper_bound, int max_iter,
+    int max_iter, double lower_bound, double upper_bound,
     double tolerance, double inertia_weight, double c1, double c2)
     : _fitness_function(fitness_function),
       _n(n),
+      _max_iter(max_iter),
       _lower_bound(lower_bound),
       _upper_bound(upper_bound),
-      _max_iter(max_iter),
       _tolerance(tolerance),
       _intertia_weight(inertia_weight),
       _c1(c1),
-      _c2(c2) {}
+      _c2(c2)
+{
+}
 
 template <std::size_t dim>
 int ParticleSwarmOptimization<dim>::initialize()
@@ -68,6 +70,8 @@ int ParticleSwarmOptimization<dim>::optimize()
         std::cout << "\b\b)" << std::endl;
         // end log*/
     }
+    // store in _max_iter the number of iterations
+    _max_iter = current_iter;
     return 0;
 }
 
@@ -96,5 +100,7 @@ int ParticleSwarmOptimization<dim>::optimize_parallel()
         }
         current_iter++;
     }
+    // store in _max_iter the number of iterations
+    _max_iter = current_iter;
     return 0;
 }

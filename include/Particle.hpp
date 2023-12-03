@@ -14,16 +14,16 @@ class Particle
 	typedef std::array<double, dim> Vector;
 
 private:
+	const std::function<double(Vector)> _fitness_function;
 	Vector _position;
 	Vector _velocity;
 	Vector _best_position;
-	double _best_value;
 	Vector _r1;
 	Vector _r2;
 	double _lower_bound;
 	double _upper_bound;
-	const std::function<double(Vector)> &_fitness_function;
-	std::mt19937 &_random_generator;
+	double _best_value;
+	std::mt19937 _random_generator;
 
 public:
 	Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
