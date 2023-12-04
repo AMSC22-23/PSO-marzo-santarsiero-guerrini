@@ -25,16 +25,44 @@ int ParticleSwarmOptimization<dim>::initialize()
     for (int i = 0; i < _n; i++)
     {
         _swarm.emplace_back(_fitness_function, _lower_bound, _upper_bound, generator);
-        double current_fitness = _swarm.back().initialize();
+        double current_fitness = _swarm[i].initialize();
         if (i == 0)
         {
             _global_best_value = current_fitness;
-            _global_best_position = _swarm.back().get_best_position();
+            _global_best_position = _swarm[i].get_best_position();
         }
         else if (current_fitness < _global_best_value)
         {
-            _global_best_position = _swarm.back().get_best_position();
+            _global_best_position = _swarm[i].get_best_position();
             _global_best_value = current_fitness;
+        }
+    }
+    return 0;
+}
+
+template <std::size_t dim>
+int ParticleSwarmOptimization<dim>::initialize_parallel()
+{
+    _swarm.resize(_n);
+#pragma omp parallel
+    {
+        std::random_device rand_dev;
+        std::mt19937 generator(rand_dev());
+#pragma omp for schedule(static)
+        for (int i = 0; i < _n; i++)
+        {
+            _swarm[i] = Particle(_fitness_function, _lower_bound, _upper_bound, generator);
+            double current_fitness = _swarm[i].initialize();
+            if (i == 0)
+            {
+                _global_best_value = current_fitness;
+                _global_best_position = _swarm[i].get_best_position();
+            }
+            else if (current_fitness < _global_best_value)
+            {
+                _global_best_position = _swarm[i].get_best_position();
+                _global_best_value = current_fitness;
+            }
         }
     }
     return 0;
@@ -82,7 +110,7 @@ int ParticleSwarmOptimization<dim>::optimize_parallel()
     double temp_value = 0.0;
     while (current_iter < _max_iter)
     {
-#pragma omp parallel for reduction(min : _global_best_value) shared(_global_best_position)
+#pragma omp parallel for schedule(static) reduction(min : _global_best_value) shared(_global_best_position)
         for (auto &particle : _swarm)
         {
             // update particle position
