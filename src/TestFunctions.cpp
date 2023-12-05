@@ -41,7 +41,7 @@ double TestFunctions::ackley(std::array<double, dim> x)
 	return -20 * exp(-0.2 * sqrt(sum1 / x.size())) - exp(sum2 / x.size()) + 20 + M_E;
 }
 
-// get standard domain bounds for a given std::function object
+// get standard domain bounds for a given function
 const std::pair<double, double> TestFunctions::get_bounds(const std::string &function_name)
 {
 	if (function_name == "sphere")
@@ -60,6 +60,32 @@ const std::pair<double, double> TestFunctions::get_bounds(const std::string &fun
 	{
 		std::cerr << "Error: function not found" << std::endl;
 		return std::make_pair(0, 0);
+	}
+}
+
+// get global minimum for a given function
+template <std::size_t dim>
+const double TestFunctions::get_global_minimum(const std::string &function_name)
+{
+	std::array<double, dim> x;
+	x.fill(0.0);
+
+	if (function_name == "sphere")
+	{
+		return TestFunctions::sphere<dim>(x);
+	}
+	else if (function_name == "rastrigin")
+	{
+		return TestFunctions::rastrigin<dim>(x);
+	}
+	else if (function_name == "ackley")
+	{
+		return TestFunctions::ackley<dim>(x);
+	}
+	else
+	{
+		std::cerr << "Error: function not found" << std::endl;
+		return -1;
 	}
 }
 

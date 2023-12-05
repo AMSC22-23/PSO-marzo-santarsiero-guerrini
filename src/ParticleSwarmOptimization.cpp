@@ -89,14 +89,36 @@ int ParticleSwarmOptimization<dim>::optimize()
         }
         current_iter++;
 
-        /*// log
-        std::cout << "Best value: " << _global_best_value;
-        std::cout << "\tBest position:\t(";
-        for (auto &i : _global_best_position) {
-          std::cout << i << ", ";
+    }
+    // store in _max_iter the number of iterations
+    _max_iter = current_iter;
+    return 0;
+}
+
+template <std::size_t dim>
+int ParticleSwarmOptimization<dim>::optimize(std::vector<double> &history)
+{
+    int current_iter = 0;
+    double temp_value = 0.0;
+    while (current_iter < _max_iter)
+    {
+        for (auto &particle : _swarm)
+        {
+            // update particle position
+            temp_value =
+                particle.update(_global_best_position, _intertia_weight, _c1, _c2);
+            // update global best position
+            if (temp_value < _global_best_value)
+            {
+                _global_best_value = temp_value;
+                _global_best_position = particle.get_best_position();
+            }
         }
-        std::cout << "\b\b)" << std::endl;
-        // end log*/
+        // store current global best value in history
+        if(current_iter % 50 == 0)
+        history.push_back(_global_best_value);
+        current_iter++;
+
     }
     // store in _max_iter the number of iterations
     _max_iter = current_iter;
@@ -110,7 +132,7 @@ int ParticleSwarmOptimization<dim>::optimize_parallel()
     double temp_value = 0.0;
     while (current_iter < _max_iter)
     {
-#pragma omp parallel for schedule(static) reduction(min : _global_best_value) shared(_global_best_position)
+#pragma omp parallel for reduction(min : _global_best_value) shared(_global_best_position)
         for (auto &particle : _swarm)
         {
             // update particle position

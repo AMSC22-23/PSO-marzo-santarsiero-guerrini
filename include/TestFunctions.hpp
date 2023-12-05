@@ -28,6 +28,10 @@ namespace TestFunctions
 
 	// Returns domain bounds for a given function
 	const std::pair<double, double> get_bounds(const std::string &f);
+
+	// Returns global minimum point for a given function
+	template <std::size_t dim>
+	const double get_global_minimum(const std::string &f);
 };
 
 #include "../src/TestFunctions.cpp"
