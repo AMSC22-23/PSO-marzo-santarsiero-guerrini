@@ -67,7 +67,7 @@ int main(int /*argc*/, char** /*argv*/) {
 
 
 
-/*
+
 	// Sphere function optimization
 	std::cout << "Sphere optimization:" << std::endl;
 	std::pair<double, double> bounds = TestFunctions::get_bounds("sphere");
@@ -84,7 +84,7 @@ int main(int /*argc*/, char** /*argv*/) {
 	std::cout << std::endl;
 
 	ParticleSwarmOptimization<dimension> pso1(TestFunctions::sphere<dimension>, particles, 100000, bounds.first, bounds.second, 10e-6, 0.4, 0.9, 2.0);
-	pso1.initialize();
+	pso1.initialize_parallel();
 	auto t3 = std::chrono::high_resolution_clock::now();
 	status = pso1.optimize_parallel();
     auto t4 = std::chrono::high_resolution_clock::now();
@@ -100,6 +100,6 @@ int main(int /*argc*/, char** /*argv*/) {
 	 std::cout << "Time taken parallel: "
               << std::chrono::duration_cast<std::chrono::milliseconds>(t4-t3).count()
               << " milliseconds\n";
-*/
+
 	return 0;
 }
