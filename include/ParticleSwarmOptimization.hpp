@@ -31,11 +31,12 @@ public:
 	~ParticleSwarmOptimization() = default;
 
 	/**
-	 * @brief Initialize, swarm, particles, and initial state
+	 * @brief Initialize the swarm's particles, and the PSO initial state
 	 *
 	 * @return int The status code (0: success, -1: error)
 	 */
 	int initialize();
+	int initialize_parallel();
 
 	int optimize();
 	int optimize_parallel();
