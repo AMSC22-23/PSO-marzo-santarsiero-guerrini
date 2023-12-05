@@ -14,7 +14,6 @@ class Particle
 	typedef std::array<double, dim> Vector;
 
 private:
-	const std::function<double(Vector)> _fitness_function;
 	Vector _position;
 	Vector _velocity;
 	Vector _best_position;
@@ -24,10 +23,13 @@ private:
 	double _upper_bound;
 	double _best_value;
 	std::mt19937 _random_generator;
+	std::function<double(std::array<double, dim>)> _fitness_function;
 
 public:
+
 	Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
 			 const double &lower_bound, const double &upper_bound, std::mt19937 &random_generator);
+	Particle() = default;
 	~Particle() = default;
 
 	// Initialize the particle velocity and position accorting to uniform distribution

@@ -51,7 +51,7 @@ int ParticleSwarmOptimization<dim>::initialize_parallel()
 #pragma omp for schedule(static)
         for (int i = 0; i < _n; i++)
         {
-            _swarm[i] = Particle(_fitness_function, _lower_bound, _upper_bound, generator);
+            _swarm[i] = Particle<dim>(_fitness_function, _lower_bound, _upper_bound, generator);
             double current_fitness = _swarm[i].initialize();
             if (i == 0)
             {
