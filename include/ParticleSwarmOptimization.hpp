@@ -46,7 +46,7 @@ public:
 	const double &get_global_best_value() const { return _global_best_value; }
 	const int &get_iter() const { return _max_iter; }
 	const double &get_tolerance() const { return _tolerance; }
-};
+	};
 
 #include "../src/ParticleSwarmOptimization.cpp"
 #endif
