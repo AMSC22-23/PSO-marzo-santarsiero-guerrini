@@ -36,7 +36,7 @@ public:
 	 * @return int The status code (0: success, -1: error)
 	 */
 	int initialize();
-
+	int initialize_parallel();
 	int optimize();
 	int optimize_parallel();
 
@@ -45,6 +45,7 @@ public:
 	const double &get_global_best_value() const { return _global_best_value; }
 	const int &get_iter() const { return _max_iter; }
 	const double &get_tolerance() const { return _tolerance; }
+	
 };
 
 #include "../src/ParticleSwarmOptimization.cpp"
