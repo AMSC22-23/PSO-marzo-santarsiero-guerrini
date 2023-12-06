@@ -39,6 +39,16 @@ public:
 	int initialize_parallel();
 
 	int optimize();
+
+	/**
+	 * @brief As ParticleSwarmOptimization::optimize, but stores the history of the best value every interval iterations
+	 *
+	 * @param history The vector where the history will be stored
+	 * @param interval The interval between each history value
+	 * @return int As ParticleSwarmOptimization::optimize the status code (0: success, -1: error)
+	 */
+	int optimize(std::vector<double> &history, const int interval = 50);
+
 	int optimize_parallel();
 
 	// getters

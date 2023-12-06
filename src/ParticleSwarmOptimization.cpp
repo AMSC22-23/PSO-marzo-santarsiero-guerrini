@@ -96,7 +96,7 @@ int ParticleSwarmOptimization<dim>::optimize()
 }
 
 template <std::size_t dim>
-int ParticleSwarmOptimization<dim>::optimize(std::vector<double> &history)
+int ParticleSwarmOptimization<dim>::optimize(std::vector<double> &history, const int interval)
 {
     int current_iter = 0;
     double temp_value = 0.0;
@@ -115,10 +115,9 @@ int ParticleSwarmOptimization<dim>::optimize(std::vector<double> &history)
             }
         }
         // store current global best value in history
-        if(current_iter % 50 == 0)
+        if(current_iter % interval == 0)
         history.push_back(_global_best_value);
         current_iter++;
-
     }
     // store in _max_iter the number of iterations
     _max_iter = current_iter;
