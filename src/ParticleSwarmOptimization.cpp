@@ -21,7 +21,7 @@ template <std::size_t dim>
 int ParticleSwarmOptimization<dim>::initialize()
 {
     std::random_device rand_dev;
-    std::mt19937 generator(rand_dev());
+    std::shared_ptr<std::mt19937> generator = std::make_shared<std::mt19937>(rand_dev());
     for (int i = 0; i < _n; i++)
     {
         _swarm.emplace_back(_fitness_function, _lower_bound, _upper_bound, generator);
@@ -47,7 +47,7 @@ int ParticleSwarmOptimization<dim>::initialize_parallel()
 #pragma omp parallel
     {
         std::random_device rand_dev;
-        std::mt19937 generator(rand_dev());
+        std::shared_ptr<std::mt19937> generator = std::make_shared<std::mt19937>(rand_dev());
 #pragma omp for schedule(static)
         for (int i = 0; i < _n; i++)
         {
@@ -117,6 +117,7 @@ int ParticleSwarmOptimization<dim>::optimize(std::vector<double> &history, const
         // store current global best value in history
         if(current_iter % interval == 0)
         history.push_back(_global_best_value);
+
         current_iter++;
     }
     // store in _max_iter the number of iterations

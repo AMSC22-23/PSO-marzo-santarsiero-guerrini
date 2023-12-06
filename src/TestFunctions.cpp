@@ -89,15 +89,16 @@ const double TestFunctions::get_global_minimum(const std::string &function_name)
 	}
 }
 
-/*int main()
+/*
+int main()
 {
 	// check if the functions returns f(0,...,0) ~ 0
-	auto a = TestFunctions::sphere;
-	std::cout << a({0, 0, 0}) << std::endl;
-	auto b = TestFunctions::rastrigin;
-	std::cout << b({0, 0, 0}) << std::endl;
-	auto c = TestFunctions::ackley;
-	std::cout << c({0, 0, 0}) << std::endl;
+
+	std::cout << TestFunctions::sphere<3>({0, 0, 0}) << std::endl;
+
+	std::cout << TestFunctions::rastrigin<3>({0, 0, 0}) << std::endl;
+
+	std::cout << TestFunctions::ackley<3>({0, 0, 0}) << std::endl;
 
 	// check get_bounds function
 	auto bounds = TestFunctions::get_bounds("sphere");

@@ -5,6 +5,7 @@
 #include <array>
 #include <random>
 #include <functional>
+#include <memory>
 
 // define a template for dim
 template <std::size_t dim>
@@ -22,13 +23,13 @@ private:
 	double _lower_bound;
 	double _upper_bound;
 	double _best_value;
-	std::mt19937 _random_generator;
+	std::shared_ptr<std::mt19937> _random_generator;
 	std::function<double(std::array<double, dim>)> _fitness_function;
 
 public:
 
 	Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
-			 const double &lower_bound, const double &upper_bound, std::mt19937 &random_generator);
+			 const double &lower_bound, const double &upper_bound, std::shared_ptr<std::mt19937> random_generator);
 	Particle() = default;
 	~Particle() = default;
 

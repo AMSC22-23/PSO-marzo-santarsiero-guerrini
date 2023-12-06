@@ -3,7 +3,7 @@
 
 template <std::size_t dim>
 Particle<dim>::Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
-                        const double &lower_bound, const double &upper_bound, std::mt19937 &random_generator)
+                        const double &lower_bound, const double &upper_bound, std::shared_ptr<std::mt19937> random_generator)
     : _fitness_function(fitness_function),
       _lower_bound(lower_bound),
       _upper_bound(upper_bound),
@@ -17,9 +17,9 @@ double Particle<dim>::initialize()
     std::uniform_real_distribution<double> distr(_lower_bound, _upper_bound);
     // Initialize the position and velocity vectors
     std::generate(_position.begin(), _position.end(), [&]()
-                  { return distr(_random_generator); });
+                  { return distr(*_random_generator); });
     std::generate(_velocity.begin(), _velocity.end(), [&]()
-                  { return distr(_random_generator); });
+                  { return distr(*_random_generator); });
     // Initialize the best position
     _best_position = _position;
     // Initialize the best value
@@ -34,9 +34,9 @@ double Particle<dim>::update(const Vector &global_best_position, const double &w
     std::uniform_real_distribution<double> distr(0, 1);
     // Initialize the position and velocity vectors
     std::generate(_r1.begin(), _r1.end(), [&]()
-                  { return distr(_random_generator); });
+                  { return distr(*_random_generator); });
     std::generate(_r2.begin(), _r2.end(), [&]()
-                  { return distr(_random_generator); });
+                  { return distr(*_random_generator); });
 
     // For each dimension
     for (std::size_t i = 0; i < _velocity.size(); ++i)

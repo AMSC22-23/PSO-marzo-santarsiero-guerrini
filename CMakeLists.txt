@@ -30,6 +30,8 @@ foreach(LIBRARY ${LIBRARIES})
     )
 endforeach(LIBRARY)
 
+# set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR})
+
 # create executable
 add_executable(${PROJ_NAME}
     src/main.cpp
