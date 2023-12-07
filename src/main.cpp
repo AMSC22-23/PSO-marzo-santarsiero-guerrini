@@ -6,11 +6,10 @@
 
 #define dimension 6
 
-
-int main(int /*argc*/, char** /*argv*/) {
+void error_iteration_test() {
 	constexpr int particles = 63;
 	constexpr double inertia = 0.6571;
-	constexpr double max_iter = 100;
+	constexpr double max_iter = 1000;
 	constexpr double c1 = 1.6319;
 	constexpr double c2 = 0.6239;
 
@@ -88,6 +87,19 @@ int main(int /*argc*/, char** /*argv*/) {
 
 	// Close the file
 	file_out.close();
+}
 
+// test the error as function of c_1 and c_2 with all other parameter fixed
+void error_c1_c2_test() {
+
+}
+
+// take the time of the serial and parallel version of the algorithm
+void time_serial_parallel_test() {
+
+}
+
+int main(int /*argc*/, char** /*argv*/) {
+	error_iteration_test();
 	return 0;
 }
