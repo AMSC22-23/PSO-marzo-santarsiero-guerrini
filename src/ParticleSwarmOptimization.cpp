@@ -20,11 +20,9 @@ ParticleSwarmOptimization<dim>::ParticleSwarmOptimization(
 template <std::size_t dim>
 int ParticleSwarmOptimization<dim>::initialize()
 {
-    std::random_device rand_dev;
-    std::shared_ptr<std::mt19937> generator = std::make_shared<std::mt19937>(rand_dev());
     for (int i = 0; i < _n; i++)
     {
-        _swarm.emplace_back(_fitness_function, _lower_bound, _upper_bound, generator);
+        _swarm.emplace_back(_fitness_function, _lower_bound, _upper_bound);
         double current_fitness = _swarm[i].initialize();
         if (i == 0)
         {
@@ -44,14 +42,10 @@ template <std::size_t dim>
 int ParticleSwarmOptimization<dim>::initialize_parallel()
 {
     _swarm.resize(_n);
-#pragma omp parallel
-    {
-        std::random_device rand_dev;
-        std::shared_ptr<std::mt19937> generator = std::make_shared<std::mt19937>(rand_dev());
-#pragma omp for schedule(static)
+#pragma omp parallel for schedule(static)
         for (int i = 0; i < _n; i++)
         {
-            _swarm[i] = Particle<dim>(_fitness_function, _lower_bound, _upper_bound, generator);
+            _swarm[i] = Particle<dim>(_fitness_function, _lower_bound, _upper_bound);
             double current_fitness = _swarm[i].initialize();
             if (i == 0)
             {
@@ -64,7 +58,6 @@ int ParticleSwarmOptimization<dim>::initialize_parallel()
                 _global_best_value = current_fitness;
             }
         }
-    }
     return 0;
 }
 
