@@ -28,7 +28,7 @@ private:
 public:
 
 	Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
-			 const double &lower_bound, const double &upper_bound, std::mt19937 &random_generator);
+			 const double &lower_bound, const double &upper_bound);
 	Particle() = default;
 	~Particle() = default;
 

@@ -7,14 +7,20 @@
 #define dimension 4
 
 // hello world main
+/*
+constexpr int particles = 63;
+	constexpr double inertia = 0.6571;
+	constexpr double max_iter = 1000;
+	constexpr double c1 = 1.6319;
+	constexpr double c2 = 0.6239;*/
 int main(int /*argc*/, char** /*argv*/) {
-	constexpr int particles = 50;
+	constexpr int particles = 63;
 	constexpr int max_iter = 100000;
 
 	// Ackley function optimization
 	std::cout << "Ackley optimization:" << std::endl;
 	std::pair<double, double> bounds = TestFunctions::get_bounds("ackley");
-	ParticleSwarmOptimization<dimension> pso(TestFunctions::ackley<dimension>, particles, max_iter, bounds.first, bounds.second, 10e-6, 0.4, 0.9, 2.0);
+	ParticleSwarmOptimization<dimension> pso(TestFunctions::ackley<dimension>, particles, max_iter, bounds.first, bounds.second, 10e-6, 0.6571, 1.6319, 0.6239);
 	pso.initialize();
 	auto t1 = std::chrono::high_resolution_clock::now();
 	int status = pso.optimize();
