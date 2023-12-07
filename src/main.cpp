@@ -4,9 +4,9 @@
 #include <fstream>
 #include <chrono>
 
-#define dimension 6
+#define dimension 2
 
-void error_iteration_test() {
+int error_iteration_test() {
 	constexpr int particles = 63;
 	constexpr double inertia = 0.6571;
 	constexpr double max_iter = 1000;
@@ -87,19 +87,46 @@ void error_iteration_test() {
 
 	// Close the file
 	file_out.close();
+	return 0;
 }
 
 // test the error as function of c_1 and c_2 with all other parameter fixed
-void error_c1_c2_test() {
-
+int error_c1_c2_test() {
+	return 0;
 }
 
 // take the time of the serial and parallel version of the algorithm
-void time_serial_parallel_test() {
-
+int time_serial_parallel_test() {
+	// Sphere function optimization
+	std::cout << "Sphere optimization:" << std::endl;
+	std::pair<double, double> bounds = TestFunctions::get_bounds("sphere");
+	ParticleSwarmOptimization<dimension> pso(TestFunctions::sphere<dimension>, 50, 10000, bounds.first, bounds.second, 0, 0.7, 2.0, 0.8);
+	pso.initialize();
+	auto t1 = std::chrono::high_resolution_clock::now();
+	int status = pso.optimize();
+    auto t2 = std::chrono::high_resolution_clock::now();
+	std::cout << "Status serial: " << status << std::endl;
+	std::cout << "Iterations serial: " << pso.get_iter() << std::endl;
+	std::cout << std::endl;
+	ParticleSwarmOptimization<dimension> pso1(TestFunctions::sphere<dimension>, 50, 10000, bounds.first, bounds.second, 0, 0.7, 2.0, 0.8);
+	pso1.initialize_parallel();
+	auto t3 = std::chrono::high_resolution_clock::now();
+	status = pso1.optimize_parallel();
+    auto t4 = std::chrono::high_resolution_clock::now();
+	std::cout << "Status parallel: " << status << std::endl;
+	std::cout << "Iterations parallel: " << pso1.get_iter() << std::endl;
+	std::cout << std::endl;
+    std::cout << "Time taken serial: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
+              << " milliseconds" << std::endl;
+	 std::cout << "Time taken parallel: "
+              << std::chrono::duration_cast<std::chrono::milliseconds>(t4-t3).count()
+              << " milliseconds" << std::endl << std::endl;
+	return 0;
 }
 
 int main(int /*argc*/, char** /*argv*/) {
-	error_iteration_test();
+	//error_iteration_test();
+	time_serial_parallel_test();
 	return 0;
 }
