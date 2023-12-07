@@ -13,6 +13,7 @@ constexpr int particles = 63;
 	constexpr double max_iter = 1000;
 	constexpr double c1 = 1.6319;
 	constexpr double c2 = 0.6239;*/
+
 int main(int /*argc*/, char** /*argv*/) {
 	constexpr int particles = 63;
 	constexpr int max_iter = 100000;
@@ -42,11 +43,5 @@ int main(int /*argc*/, char** /*argv*/) {
 	 std::cout << "Time taken parallel: "
               << std::chrono::duration_cast<std::chrono::milliseconds>(t4-t3).count()
               << " milliseconds" << std::endl << std::endl;
-	return 0;
-}
-
-int main(int /*argc*/, char** /*argv*/) {
-	//error_iteration_test();
-	time_serial_parallel_test();
 	return 0;
 }

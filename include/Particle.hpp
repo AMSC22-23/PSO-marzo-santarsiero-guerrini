@@ -23,7 +23,7 @@ private:
 	double _lower_bound;
 	double _upper_bound;
 	double _best_value;
-	std::shared_ptr<std::mt19937> _random_generator;
+	std::mt19937 _random_generator;
 	std::function<double(std::array<double, dim>)> _fitness_function;
 
 public:
