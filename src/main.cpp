@@ -29,7 +29,7 @@ int main(int /*argc*/, char** /*argv*/) {
 	std::cout << "Status serial: " << status << std::endl;
 	std::cout << "Iterations serial: " << pso.get_iter() << std::endl;
 	std::cout << std::endl;
-	ParticleSwarmOptimization<dimension> pso1(TestFunctions::sphere<dimension>, 50, 10000, bounds.first, bounds.second, 0, 0.7, 2.0, 0.8);
+	ParticleSwarmOptimization<dimension> pso1(TestFunctions::sphere<dimension>, 50, max_iter, bounds.first, bounds.second, 0, 0.7, 2.0, 0.8);
 	pso1.initialize_parallel();
 	auto t3 = std::chrono::high_resolution_clock::now();
 	status = pso1.optimize_parallel();
