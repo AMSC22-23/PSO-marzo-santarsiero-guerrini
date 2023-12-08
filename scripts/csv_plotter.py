@@ -21,7 +21,21 @@ filepath = path.abspath(path.join(basepath, "..", "output", sys.argv[1]))
 # Read the CSV file using pandas
 data = pd.read_csv(filepath, comment='#', index_col=0)
 
+# Compose the title from the comments
+title = ""
+description = "("
+with open(filepath, 'r') as f:
+	title = f.readline()[1:].strip().replace('_', ' ').capitalize()
+	for line in f:
+		if line[0] == '#':
+			description += line[1:].strip() + ", "
+	description = description[:-2] + ")"
 # Plot the data
 sns.set_style("darkgrid")
-sns.lineplot(data=data)
+ax = sns.lineplot(data=data)
+ax.set_yscale('symlog', linthresh=1e-200)	# Needed for having a log scale showing 0
+# Set description below title
+ax.text(x=0.5, y=1.1, s=title, fontsize=16, weight='bold', ha='center', va='bottom', transform=ax.transAxes)
+ax.text(x=0.5, y=1.05, s=description, fontsize=8, alpha=0.75, ha='center', va='bottom', transform=ax.transAxes)
+
 plt.show()

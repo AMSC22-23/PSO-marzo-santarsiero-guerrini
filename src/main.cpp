@@ -10,7 +10,7 @@ int error_iteration_test()
 {
 	constexpr int particles = 63;
 	constexpr double inertia = 0.6571;
-	constexpr double max_iter = 100000;
+	constexpr double max_iter = 1000;
 	constexpr double c1 = 1.6319;
 	constexpr double c2 = 0.6239;
 
@@ -31,12 +31,15 @@ int error_iteration_test()
 	file_out << "# Inertia: " << inertia << std::endl;
 	file_out << "# C_1: " << c1 << std::endl;
 	file_out << "# C_2: " << c2 << std::endl;
-	file_out << "Iterations,Sphere_error,Rastrigin_error,Ackley_error" << std::endl;
+	file_out << "Iterations,Sphere_serial,Rastrigin_serial,Ackley_serial,Sphere_parallel,Rastrigin_parllel,Ackley_parallel" << std::endl;
 
 	// Initialize history and log_interval
 	std::vector<double> history_sphere;
 	std::vector<double> history_rastrigin;
 	std::vector<double> history_ackley;
+	std::vector<double> history_sphere_p;
+	std::vector<double> history_rastrigin_p;
+	std::vector<double> history_ackley_p;
 
 	// Optimize the sphere function
 	std::pair<double, double> bounds = TestFunctions::get_bounds("sphere");
@@ -48,6 +51,8 @@ int error_iteration_test()
 		std::cout << "Error in optimization" << std::endl;
 		return -1;
 	}
+	pso.initialize_parallel();
+	status = pso.optimize_parallel(history_sphere_p, log_interval);
 
 	// Optimize the rastrigin function
 	bounds = TestFunctions::get_bounds("rastrigin");
@@ -59,6 +64,8 @@ int error_iteration_test()
 		std::cout << "Error in optimization" << std::endl;
 		return -1;
 	}
+	pso1.initialize_parallel();
+	status = pso1.optimize_parallel(history_rastrigin_p, log_interval);
 
 	// Optimize the ackley function
 	bounds = TestFunctions::get_bounds("ackley");
@@ -70,6 +77,8 @@ int error_iteration_test()
 		std::cout << "Error in optimization" << std::endl;
 		return -1;
 	}
+	pso2.initialize_parallel();
+	status = pso2.optimize_parallel(history_ackley_p, log_interval);
 
 	// Print the history vectors size
 	std::cout << "Sphere history size:\t" << history_sphere.size() << std::endl;
@@ -87,8 +96,12 @@ int error_iteration_test()
 		double sphere_error = std::abs(history_sphere[i] - exact_spere);
 		double rastrigin_error = std::abs(history_rastrigin[i] - exact_rastrigin);
 		double ackley_error = std::abs(history_ackley[i] - exact_ackley);
+		double sphere_error_p = std::abs(history_sphere_p[i] - exact_spere);
+		double rastrigin_error_p = std::abs(history_rastrigin_p[i] - exact_rastrigin);
+		double ackley_error_p = std::abs(history_ackley_p[i] - exact_ackley);
 		// Write data to file
-		file_out << i * log_interval << "," << sphere_error << "," << rastrigin_error << "," << ackley_error << std::endl;
+		file_out << i * log_interval << "," << sphere_error << "," << rastrigin_error << "," << ackley_error <<
+			"," << sphere_error_p << "," << rastrigin_error_p << "," << ackley_error_p << std::endl;
 	}
 
 	// Close the file
@@ -141,7 +154,7 @@ int time_serial_parallel_test()
 
 int main(int /*argc*/, char ** /*argv*/)
 {
-	// error_iteration_test();
-	time_serial_parallel_test();
+	error_iteration_test();
+	// time_serial_parallel_test();
 	return 0;
 }
