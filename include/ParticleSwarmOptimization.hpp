@@ -51,6 +51,9 @@ public:
 
 	int optimize_parallel();
 
+	int optimize_parallel(std::vector<double> &history, const int interval = 50);
+
+
 	// getters
 	const Vector &get_global_best_position() const { return _global_best_position; }
 	const double &get_global_best_value() const { return _global_best_value; }

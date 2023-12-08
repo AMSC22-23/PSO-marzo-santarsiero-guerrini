@@ -6,8 +6,9 @@
 
 #define dimension 2
 
-int error_iteration_test() {
-	constexpr int particles = 63;
+int error_iteration_test()
+{
+	constexpr int particles = 6000;
 	constexpr double inertia = 0.6571;
 	constexpr double max_iter = 1000;
 	constexpr double c1 = 1.6319;
@@ -18,7 +19,8 @@ int error_iteration_test() {
 	// Initialize the file
 	std::ofstream file_out;
 	file_out.open("./output/error_iterations.csv");
-	if(!file_out) {
+	if (!file_out)
+	{
 		std::cout << "Error opening file" << std::endl;
 		return -1;
 	}
@@ -29,42 +31,54 @@ int error_iteration_test() {
 	file_out << "# Inertia: " << inertia << std::endl;
 	file_out << "# C_1: " << c1 << std::endl;
 	file_out << "# C_2: " << c2 << std::endl;
-	file_out << "Iterations,Sphere_error,Rastrigin_error,Ackley_error" << std::endl;
+	file_out << "Iterations,Sphere_serial,Rastrigin_serial,Ackley_serial,Sphere_parallel,Rastrigin_parllel,Ackley_parallel" << std::endl;
 
 	// Initialize history and log_interval
 	std::vector<double> history_sphere;
 	std::vector<double> history_rastrigin;
 	std::vector<double> history_ackley;
+	std::vector<double> history_sphere_p;
+	std::vector<double> history_rastrigin_p;
+	std::vector<double> history_ackley_p;
 
 	// Optimize the sphere function
 	std::pair<double, double> bounds = TestFunctions::get_bounds("sphere");
 	ParticleSwarmOptimization<dimension> pso(TestFunctions::sphere<dimension>, particles, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
 	pso.initialize();
 	int status = pso.optimize(history_sphere, log_interval);
-	if(status != 0) {
+	if (status != 0)
+	{
 		std::cout << "Error in optimization" << std::endl;
 		return -1;
 	}
+	pso.initialize_parallel();
+	status = pso.optimize_parallel(history_sphere_p, log_interval);
 
 	// Optimize the rastrigin function
 	bounds = TestFunctions::get_bounds("rastrigin");
 	ParticleSwarmOptimization<dimension> pso1(TestFunctions::rastrigin<dimension>, particles, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
 	pso1.initialize();
 	status = pso1.optimize(history_rastrigin, log_interval);
-	if(status != 0) {
+	if (status != 0)
+	{
 		std::cout << "Error in optimization" << std::endl;
 		return -1;
 	}
+	pso1.initialize_parallel();
+	status = pso1.optimize_parallel(history_rastrigin_p, log_interval);
 
 	// Optimize the ackley function
 	bounds = TestFunctions::get_bounds("ackley");
 	ParticleSwarmOptimization<dimension> pso2(TestFunctions::ackley<dimension>, particles, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
 	pso2.initialize();
 	status = pso2.optimize(history_ackley, log_interval);
-	if(status != 0) {
+	if (status != 0)
+	{
 		std::cout << "Error in optimization" << std::endl;
 		return -1;
 	}
+	pso2.initialize_parallel();
+	status = pso2.optimize_parallel(history_ackley_p, log_interval);
 
 	// Print the history vectors size
 	std::cout << "Sphere history size:\t" << history_sphere.size() << std::endl;
@@ -77,12 +91,17 @@ int error_iteration_test() {
 	double exact_ackley = TestFunctions::get_global_minimum<dimension>("ackley");
 
 	// Write to file the error values
-	for(int i = 0; i < history_sphere.size(); i++) {
-		double sphere_error = std::abs(history_sphere[i]-exact_spere);
-		double rastrigin_error = std::abs(history_rastrigin[i]-exact_rastrigin);
-		double ackley_error = std::abs(history_ackley[i]-exact_ackley);
+	for (int i = 0; i < history_sphere.size(); i++)
+	{
+		double sphere_error = std::abs(history_sphere[i] - exact_spere);
+		double rastrigin_error = std::abs(history_rastrigin[i] - exact_rastrigin);
+		double ackley_error = std::abs(history_ackley[i] - exact_ackley);
+		double sphere_error_p = std::abs(history_sphere_p[i] - exact_spere);
+		double rastrigin_error_p = std::abs(history_rastrigin_p[i] - exact_rastrigin);
+		double ackley_error_p = std::abs(history_ackley_p[i] - exact_ackley);
 		// Write data to file
-		file_out << i*log_interval << "," << sphere_error << "," << rastrigin_error << "," << ackley_error << std::endl;
+		file_out << i * log_interval << "," << sphere_error << "," << rastrigin_error << "," << ackley_error <<
+			"," << sphere_error_p << "," << rastrigin_error_p << "," << ackley_error_p << std::endl;
 	}
 
 	// Close the file
@@ -91,42 +110,51 @@ int error_iteration_test() {
 }
 
 // test the error as function of c_1 and c_2 with all other parameter fixed
-int error_c1_c2_test() {
+int error_c1_c2_test()
+{
 	return 0;
 }
 
 // take the time of the serial and parallel version of the algorithm
-int time_serial_parallel_test() {
+int time_serial_parallel_test()
+{
+	constexpr int particles = 6000;
+	constexpr double inertia = 0.6571;
+	constexpr double max_iter = 1000;
+	constexpr double c1 = 1.6319;
+	constexpr double c2 = 0.6239;
 	// Sphere function optimization
 	std::cout << "Sphere optimization:" << std::endl;
 	std::pair<double, double> bounds = TestFunctions::get_bounds("sphere");
-	ParticleSwarmOptimization<dimension> pso(TestFunctions::sphere<dimension>, 50, 10000, bounds.first, bounds.second, 0, 0.7, 2.0, 0.8);
+	ParticleSwarmOptimization<dimension> pso(TestFunctions::sphere<dimension>, particles, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
 	pso.initialize();
 	auto t1 = std::chrono::high_resolution_clock::now();
 	int status = pso.optimize();
-    auto t2 = std::chrono::high_resolution_clock::now();
+	auto t2 = std::chrono::high_resolution_clock::now();
 	std::cout << "Status serial: " << status << std::endl;
 	std::cout << "Iterations serial: " << pso.get_iter() << std::endl;
 	std::cout << std::endl;
-	ParticleSwarmOptimization<dimension> pso1(TestFunctions::sphere<dimension>, 50, 10000, bounds.first, bounds.second, 0, 0.7, 2.0, 0.8);
+	ParticleSwarmOptimization<dimension> pso1(TestFunctions::sphere<dimension>, particles, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
 	pso1.initialize_parallel();
 	auto t3 = std::chrono::high_resolution_clock::now();
 	status = pso1.optimize_parallel();
-    auto t4 = std::chrono::high_resolution_clock::now();
+	auto t4 = std::chrono::high_resolution_clock::now();
 	std::cout << "Status parallel: " << status << std::endl;
 	std::cout << "Iterations parallel: " << pso1.get_iter() << std::endl;
 	std::cout << std::endl;
-    std::cout << "Time taken serial: "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(t2-t1).count()
-              << " milliseconds" << std::endl;
-	 std::cout << "Time taken parallel: "
-              << std::chrono::duration_cast<std::chrono::milliseconds>(t4-t3).count()
-              << " milliseconds" << std::endl << std::endl;
+	std::cout << "Time taken serial: "
+			  << std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count()
+			  << " milliseconds" << std::endl;
+	std::cout << "Time taken parallel: "
+			  << std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3).count()
+			  << " milliseconds" << std::endl
+			  << std::endl;
 	return 0;
 }
 
-int main(int /*argc*/, char** /*argv*/) {
-	//error_iteration_test();
-	time_serial_parallel_test();
+int main(int /*argc*/, char ** /*argv*/)
+{
+	error_iteration_test();
+	// time_serial_parallel_test();
 	return 0;
 }
