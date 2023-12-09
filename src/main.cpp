@@ -4,11 +4,12 @@
 #include <fstream>
 #include <chrono>
 
-#define dimension 2
+#define dimension 6
 
+// test the error as function of the iteration number
 int error_iteration_test()
 {
-	constexpr int particles = 6000;
+	constexpr int particles = 62;
 	constexpr double inertia = 0.6571;
 	constexpr double max_iter = 1000;
 	constexpr double c1 = 1.6319;
@@ -109,9 +110,59 @@ int error_iteration_test()
 	return 0;
 }
 
-// test the error as function of c_1 and c_2 with all other parameter fixed
-int error_c1_c2_test()
+// test the time as function of the number of particles
+int time_numparticles_test()
 {
+	constexpr int max_particles = 600;
+	constexpr double inertia = 0.6571;
+	constexpr double max_iter = 2000;
+	constexpr double c1 = 1.6319;
+	constexpr double c2 = 0.6239;
+
+	constexpr int log_interval = 5;
+	// Collect data for error-iteration plot with different functions
+	// Initialize the file
+	std::ofstream file_out;
+	file_out.open("./output/time_numparticles.csv");
+	if (!file_out)
+	{
+		std::cout << "Error opening file" << std::endl;
+		return -1;
+	}
+	// Write comments and header
+	file_out << "# Execution time as function of the number of particles" << std::endl;
+	file_out << "# Function: Ackley" << std::endl;
+	file_out << "# Dimension: " << dimension << std::endl;
+	file_out << "# Iterations: " << max_iter << std::endl;
+	file_out << "# Inertia: " << inertia << std::endl;
+	file_out << "# C_1: " << c1 << std::endl;
+	file_out << "# C_2: " << c2 << std::endl;
+	file_out << "Num_particles,Serial_time,Parallel_time,Speedup" << std::endl;
+
+	std::pair<double, double> bounds = TestFunctions::get_bounds("ackley");
+
+	for (int i = 1; i <= max_particles; i += log_interval)
+	{
+		// Optimize the ackley function
+		ParticleSwarmOptimization<dimension> pso(TestFunctions::ackley<dimension>, i, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
+		pso.initialize();
+		auto t1 = std::chrono::high_resolution_clock::now();
+		pso.optimize();
+		auto t2 = std::chrono::high_resolution_clock::now();
+		// Optimize the ackley function in parallel
+		ParticleSwarmOptimization<dimension> pso1(TestFunctions::ackley<dimension>, i, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
+		pso1.initialize_parallel();
+		auto t3 = std::chrono::high_resolution_clock::now();
+		pso1.optimize_parallel();
+		auto t4 = std::chrono::high_resolution_clock::now();
+		// Write data to file
+		file_out << i << "," <<
+			std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count() << "," <<
+			std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3).count() << "," <<
+			double(std::chrono::duration_cast<std::chrono::milliseconds>(t2 - t1).count())
+			/ std::chrono::duration_cast<std::chrono::milliseconds>(t4 - t3).count() << std::endl;
+	}
+	file_out.close();
 	return 0;
 }
 
@@ -154,7 +205,8 @@ int time_serial_parallel_test()
 
 int main(int /*argc*/, char ** /*argv*/)
 {
-	error_iteration_test();
+	// error_iteration_test();
 	// time_serial_parallel_test();
+	time_numparticles_test();
 	return 0;
 }

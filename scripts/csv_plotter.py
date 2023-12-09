@@ -3,6 +3,8 @@
 # The labels are inferred from the column names on the first row after comments
 import sys
 from os import path
+from turtle import color
+from matplotlib.lines import Line2D
 import pandas as pd
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -30,10 +32,27 @@ with open(filepath, 'r') as f:
 		if line[0] == '#':
 			description += line[1:].strip() + ", "
 	description = description[:-2] + ")"
-# Plot the data
+
 sns.set_style("darkgrid")
-ax = sns.lineplot(data=data)
-ax.set_yscale('symlog', linthresh=1e-200)	# Needed for having a log scale showing 0
+ax = None
+
+# Plot for the error_iteration.csv
+if sys.argv[1] == "error_iteration.csv":
+	ax = sns.lineplot(data=data)
+	ax.set_yscale('symlog', linthresh=1e-200)	# Needed for having a log scale showing 0
+
+# Plot for the time_numparticles.csv
+elif sys.argv[1] == "time_numparticles.csv":
+	ax = sns.lineplot(data=data.Serial_time, color='tab:blue')
+	sns.lineplot(data=data.Parallel_time, color='tab:red', ax=ax)
+	ax2 = ax.twinx()
+	sns.lineplot(data=data.Speedup, ax=ax2, color='tab:green')
+	ax.legend(handles=[Line2D([], [], marker='_', color='tab:blue', label='Serial'),
+					   Line2D([], [], marker='_', color='tab:red',  label='Parallel'),
+					   Line2D([], [], marker='.', color='tab:green',  label='Speedup')])
+	ax.set_ylabel("Time (s)")
+	ax2.set_ylabel("Speedup")
+
 # Set description below title
 ax.text(x=0.5, y=1.1, s=title, fontsize=16, weight='bold', ha='center', va='bottom', transform=ax.transAxes)
 ax.text(x=0.5, y=1.05, s=description, fontsize=8, alpha=0.75, ha='center', va='bottom', transform=ax.transAxes)
