@@ -3,7 +3,6 @@
 # The labels are inferred from the column names on the first row after comments
 import sys
 from os import path
-from turtle import color
 from matplotlib.lines import Line2D
 import pandas as pd
 import matplotlib.pyplot as plt
@@ -43,15 +42,19 @@ if sys.argv[1] == "error_iteration.csv":
 
 # Plot for the time_numparticles.csv
 elif sys.argv[1] == "time_numparticles.csv":
-	ax = sns.lineplot(data=data.Serial_time, color='tab:blue')
-	sns.lineplot(data=data.Parallel_time, color='tab:red', ax=ax)
+	ax = sns.lineplot(data=data.Serial_time, color='blue')
+	sns.lineplot(data=data.Parallel_time, color='red', ax=ax)
 	ax2 = ax.twinx()
-	sns.lineplot(data=data.Speedup, ax=ax2, color='tab:green')
-	ax.legend(handles=[Line2D([], [], marker='_', color='tab:blue', label='Serial'),
-					   Line2D([], [], marker='_', color='tab:red',  label='Parallel'),
-					   Line2D([], [], marker='.', color='tab:green',  label='Speedup')])
-	ax.set_ylabel("Time (s)")
+	sns.lineplot(data=data.Speedup, ax=ax2, color='green')
+	ax.legend(handles=[Line2D([], [], marker='_', color='blue', label='Serial'),
+					   Line2D([], [], marker='_', color='red',  label='Parallel'),
+					   Line2D([], [], marker='_', color='green',  label='Speedup')])
+	ax.set_ylabel("Time (ms)")
 	ax2.set_ylabel("Speedup")
+	ax.set_xlabel("Number of particles")
+else:
+	print("File not supported.")
+	exit()
 
 # Set description below title
 ax.text(x=0.5, y=1.1, s=title, fontsize=16, weight='bold', ha='center', va='bottom', transform=ax.transAxes)
