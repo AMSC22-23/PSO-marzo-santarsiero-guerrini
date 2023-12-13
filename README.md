@@ -17,7 +17,9 @@ While a critical section is necessary at each update of the shared global best v
 
 ## Requirements
 - CMake
-- C++20
+- C++17
+- OpenMP 3.1
+- Python3
 
 ## How to compile and run
 1. Move into the build folder
@@ -32,13 +34,14 @@ While a critical section is necessary at each update of the shared global best v
    ```
    cmake --build .
    ```
-4. Launch the PSO executable (in case Visual Studio is used as build kit, the executable may be found inside the ```build/Debug``` folder)
+4. Launch the PSO executable with a suitable test (a complete list of the available test is shown if no parameter is passed)
    ```
-   ./PSO
+   ./PSO [test_name]
    ```
-5. Plot the results in a graphical way
+   The execution of a test may produce an output file `test_name.csv` that can be found under the `output` folder.
+7. Plot the results in a graphical way passing to the `plot_csv.py` script only the filename of the .csv file
    ```
-   python plot_csv.py filename.csv
+   python scripts/plot_csv.py test_name.csv
    ```
 
 
