@@ -143,7 +143,7 @@ int time_numparticles_test()
 
 	for (int i = 1; i <= max_particles; i += log_interval)
 	{
-		if(i % (log_interval* == 0)
+		if(i % (log_interval*10) == 0)
 			std::cout << "Starting test with " << i << "particles" << std::endl;
 		// Optimize the ackley function
 		ParticleSwarmOptimization<dimension> pso(TestFunctions::ackley<dimension>, i, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
