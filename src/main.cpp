@@ -92,7 +92,7 @@ int error_iterations_test()
 	double exact_ackley = TestFunctions::get_global_minimum<dimension>("ackley");
 
 	// Write to file the error values
-	for (int i = 0; i < history_sphere.size(); i++)
+	for (size_t i = 0; i < history_sphere.size(); i++)
 	{
 		double sphere_error = std::abs(history_sphere[i] - exact_spere);
 		double rastrigin_error = std::abs(history_rastrigin[i] - exact_rastrigin);
@@ -173,7 +173,7 @@ int serial_parallel_opt_test()
 {
 	constexpr int particles = 60;
 	constexpr double inertia = 0.6571;
-	constexpr double max_iter = 1000;
+	constexpr double max_iter = 10000;
 	constexpr double c1 = 1.6319;
 	constexpr double c2 = 0.6239;
 	// Print the parameters

@@ -31,7 +31,7 @@ namespace TestFunctions
 
 	// Returns global minimum point for a given function
 	template <std::size_t dim>
-	const double get_global_minimum(const std::string &f);
+	double get_global_minimum(const std::string &f);
 };
 
 #include "../src/TestFunctions.cpp"

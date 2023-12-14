@@ -3,7 +3,9 @@
 
 template <std::size_t dim>
 Particle<dim>::Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
-                        const double &lower_bound, const double &upper_bound, std::shared_ptr<std::mt19937> random_generator)
+                        const double &lower_bound,
+                        const double &upper_bound,
+                        std::shared_ptr<std::mt19937> random_generator)
     : _fitness_function(fitness_function),
       _lower_bound(lower_bound),
       _upper_bound(upper_bound),

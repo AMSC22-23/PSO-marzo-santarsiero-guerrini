@@ -65,7 +65,7 @@ const std::pair<double, double> TestFunctions::get_bounds(const std::string &fun
 
 // get global minimum for a given function
 template <std::size_t dim>
-const double TestFunctions::get_global_minimum(const std::string &function_name)
+double TestFunctions::get_global_minimum(const std::string &function_name)
 {
 	std::array<double, dim> x;
 	x.fill(0.0);

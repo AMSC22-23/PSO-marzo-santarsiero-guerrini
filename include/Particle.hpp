@@ -7,14 +7,22 @@
 #include <functional>
 #include <memory>
 
-// define a template for dim
+/**
+ * @brief Class that represents a single particle in the swarm
+ * The particle is characterized by its position, velocity, and best position dim-dimensional vectors.
+ * It also has the fitness function that needs to be optimized and the bounds of the search space.
+ * @tparam dim the dimension of the space in which the function is defined
+ */
 template <std::size_t dim>
-
 class Particle
 {
+	/**
+	 * @brief Type trait to represent a vector in a dim-dimensional space
+	 * This is just dim-dimensional array of doubles
+	 */
 	typedef std::array<double, dim> Vector;
-
 private:
+	std::function<double(std::array<double, dim>)> _fitness_function;
 	Vector _position;
 	Vector _velocity;
 	Vector _best_position;
@@ -24,12 +32,14 @@ private:
 	double _upper_bound;
 	double _best_value;
 	std::shared_ptr<std::mt19937> _random_generator;
-	std::function<double(std::array<double, dim>)> _fitness_function;
 
 public:
 
 	Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
-			 const double &lower_bound, const double &upper_bound, std::shared_ptr<std::mt19937> random_generator);
+			 const double &lower_bound,
+			 const double &upper_bound,
+			 std::shared_ptr<std::mt19937> random_generator);
+
 	Particle() = default;
 	~Particle() = default;
 
