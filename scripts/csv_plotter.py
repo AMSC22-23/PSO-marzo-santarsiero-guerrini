@@ -35,8 +35,8 @@ with open(filepath, 'r') as f:
 sns.set_style("darkgrid")
 ax = None
 
-# Plot for the error_iteration.csv
-if sys.argv[1] == "error_iteration.csv":
+# Plot for the error_iterations.csv
+if sys.argv[1] == "error_iterations.csv":
 	ax = sns.lineplot(data=data)
 	ax.set_yscale('symlog', linthresh=1e-200)	# Needed for having a log scale showing 0
 
