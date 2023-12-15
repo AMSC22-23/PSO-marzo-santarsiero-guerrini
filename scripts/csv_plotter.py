@@ -2,6 +2,7 @@
 # Takes the first column as the x-axis and the rest as the y-axis
 # The labels are inferred from the column names on the first row after comments
 import sys
+import os
 from os import path
 from matplotlib.lines import Line2D
 import pandas as pd
@@ -36,7 +37,7 @@ sns.set_style("darkgrid")
 ax = None
 
 # Plot for the error_iteration.csv
-if sys.argv[1] == "error_iteration.csv":
+if sys.argv[1] == "error_iterations.csv":
 	ax = sns.lineplot(data=data)
 	ax.set_yscale('symlog', linthresh=1e-200)	# Needed for having a log scale showing 0
 
@@ -60,4 +61,9 @@ else:
 ax.text(x=0.5, y=1.1, s=title, fontsize=16, weight='bold', ha='center', va='bottom', transform=ax.transAxes)
 ax.text(x=0.5, y=1.05, s=description, fontsize=8, alpha=0.75, ha='center', va='bottom', transform=ax.transAxes)
 
-plt.show()
+if sys.argv[1] == "error_iterations.csv":
+
+# Save the plot in the output directory
+	plt.savefig(os.path.join(os.getcwd(), "output/error_iterations.png"))
+elif sys.argv[1] == "time_numparticles.csv":
+	plt.savefig(os.path.join(os.getcwd(), "output/time_numparticles.png"))
