@@ -43,7 +43,10 @@ While a critical section is necessary at each update of the shared global best v
    ```
    python scripts/plot_csv.py test_name.csv
    ```
-
+## Available tests
+- `error_iteration`: Optimizes all the test functions with the same parameters both in serial and in parallel. Logs the error in function of the iterations count on the same optimizaiton loop for each function. Stores in the `error_iteration.csv` file all the errors in function of the iteration.
+- `time_numparticles`: Optimizes several time the same test function with same parameters varying only the number of particles. The optimization is done both in serial and in parallel and the time is taken to analyse the speedup. Stores in the `time_numparticles.csv` file all the execution times of the serial and parallel optimize function for each swarm size of particles.
+- `serial_parallel_opt`: Basic optimization of a given test function both in serial and in parallel. Prints in standard output the execution time and the achieved error. Does not saves any file.
 
 ## Group members
 - Pierpaolo Marzo

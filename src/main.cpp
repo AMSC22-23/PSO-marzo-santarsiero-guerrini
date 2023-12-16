@@ -141,10 +141,13 @@ int time_numparticles_test()
 
 	std::pair<double, double> bounds = TestFunctions::get_bounds("ackley");
 
+	std::cout << "Starting test from 1 to " << max_particles << " particles" << std::endl;
+	std::cout << "Logging every " << log_interval << " iterations" << std::endl;
+
 	for (int i = 1; i <= max_particles; i += log_interval)
 	{
-		if(i % (log_interval*10) == 0)
-			std::cout << "Starting test with " << i << "particles" << std::endl;
+		if((i-1) % (log_interval*10) == 0)
+			std::cout << "Starting test with " << i << " particle(s)" << std::endl;
 		// Optimize the ackley function
 		ParticleSwarmOptimization<dimension> pso(TestFunctions::ackley<dimension>, i, max_iter, bounds.first, bounds.second, 0, inertia, c1, c2);
 		pso.initialize();
