@@ -20,15 +20,18 @@ ParticleSwarmOptimization<dim>::ParticleSwarmOptimization(
 template <std::size_t dim>
 int ParticleSwarmOptimization<dim>::initialize()
 {
+    // Initialize the swarm, creating n particles
     for (int i = 0; i < _n; i++)
     {
         _swarm.emplace_back(_fitness_function, _lower_bound, _upper_bound);
         double current_fitness = _swarm[i].initialize();
+        // if the current particle is the first one, initialize the global best value and position
         if (i == 0)
         {
             _global_best_value = current_fitness;
             _global_best_position = _swarm[i].get_best_position();
         }
+        // otherwise, update the global best value and position if necessary
         else if (current_fitness < _global_best_value)
         {
             _global_best_position = _swarm[i].get_best_position();
@@ -42,16 +45,19 @@ template <std::size_t dim>
 int ParticleSwarmOptimization<dim>::initialize_parallel()
 {
     _swarm.resize(_n);
+    // Initialize the swarm, creating n particles in parallel
 #pragma omp parallel for schedule(static)
         for (int i = 0; i < _n; i++)
         {
             _swarm[i] = Particle<dim>(_fitness_function, _lower_bound, _upper_bound);
             double current_fitness = _swarm[i].initialize();
+            // if the current particle is the first one, initialize the global best value and position
             if (i == 0)
             {
                 _global_best_value = current_fitness;
                 _global_best_position = _swarm[i].get_best_position();
             }
+            // otherwise, update the global best value and position if necessary
             else if (current_fitness < _global_best_value)
             {
                 _global_best_position = _swarm[i].get_best_position();
@@ -93,6 +99,7 @@ int ParticleSwarmOptimization<dim>::optimize(std::vector<double> &history, const
 {
     int current_iter = 0;
     double temp_value = 0.0;
+    // update all the particles, until the maximum number of iterations is reached
     while (current_iter < _max_iter)
     {
         for (auto &particle : _swarm)
@@ -153,6 +160,7 @@ int ParticleSwarmOptimization<dim>::optimize_parallel(std::vector<double> &histo
 {
     int current_iter = 0;
     double temp_value = 0.0;
+    // update all the particles in parallel, until the maximum number of iterations is reached
     while (current_iter < _max_iter)
     {
 #pragma omp parallel for reduction(min : _global_best_value) shared(_global_best_position)

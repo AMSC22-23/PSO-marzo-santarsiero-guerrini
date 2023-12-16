@@ -64,6 +64,7 @@ double Particle<dim>::update(const Vector &global_best_position, const double &w
         _best_value = current_value;
     }
 
+    // Return the value of the fitness function in the best position
     return _best_value;
 }
 

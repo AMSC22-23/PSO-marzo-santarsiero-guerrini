@@ -19,7 +19,7 @@ int error_iterations_test()
 	// Collect data for error-iteration plot with different functions
 	// Initialize the file
 	std::ofstream file_out;
-	file_out.open("../output/error_iterations.csv");
+	file_out.open("../output/error_iteration.csv");
 	if (!file_out)
 	{
 		std::cout << "Error opening file" << std::endl;
@@ -173,7 +173,7 @@ int serial_parallel_opt_test()
 {
 	constexpr int particles = 60;
 	constexpr double inertia = 0.6571;
-	constexpr double max_iter = 1000;
+	constexpr double max_iter = 10000;
 	constexpr double c1 = 1.6319;
 	constexpr double c2 = 0.6239;
 	// Print the parameters
