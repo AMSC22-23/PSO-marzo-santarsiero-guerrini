@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>PSO: Main Page</title>
+<title>PSO-marzo-santarsiero-guerrini: AMSC project: Particle Swarm Optimization (PSO)</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -25,7 +25,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">PSO
+   <div id="projectname">PSO-marzo-santarsiero-guerrini
    </div>
   </td>
  </tr>
@@ -88,10 +88,58 @@ $(document).ready(function(){initNavTree('index.html',''); initResizable(); });
 </div>
 </div>
 
-<div class="header">
-  <div class="headertitle"><div class="title">PSO Documentation</div></div>
+<div><div class="header">
+  <div class="headertitle"><div class="title">AMSC project: <a class="el" href="class_particle.html" title="Class that represents a single particle in the swarm.">Particle</a> Swarm Optimization (PSO) </div></div>
 </div><!--header-->
 <div class="contents">
+<div class="textblock"><p><a class="anchor" id="md__r_e_a_d_m_e"></a></p>
+<h1><a class="anchor" id="description"></a>
+Description</h1>
+<p>This project aims to implement the PSO algorithm both in serial and in parallel, the latter exploiting the OpenMP API. The fully informed version of the algorithm has been choosen for its balance between simplicity of implementation and effectiveness.</p>
+<p>Three main classes have been developed:</p><ul>
+<li><code><a class="el" href="class_particle.html" title="Class that represents a single particle in the swarm.">Particle</a></code> represents a single particle of the swarm and manage its initialization and update at each iteration.</li>
+<li><code><a class="el" href="class_particle_swarm_optimization.html" title="Class that represents the Particle Swarm Optimization algorithm.">ParticleSwarmOptimization</a></code> wraps the swarm of particles and the iterative PSO algorithm besides with initialization and output methods.</li>
+<li><code>TestFunctions</code> contains some common benchmarking functions and some utilities needed for the tesing of the algorithm.</li>
+</ul>
+<p>The <code><a class="el" href="class_particle_swarm_optimization.html" title="Class that represents the Particle Swarm Optimization algorithm.">ParticleSwarmOptimization</a></code> class provides methods for the serial and the parallel implementation for both initialization and optimization. The parallel implementation exploits multithreading in order to speedup the particles update at each iteration, assigning to each thread a subset of the swarm.</p>
+<p>Since there is no dependence between particles update at the same iteration, synchronization is only needed at the end of each iteration. While a critical section is necessary at each update of the shared global best value and position in order to preserve the consistency of these values.</p>
+<h1><a class="anchor" id="requirements"></a>
+Requirements</h1>
+<ul>
+<li>CMake</li>
+<li>C++17</li>
+<li>OpenMP 3.1</li>
+<li>Python3</li>
+</ul>
+<h1><a class="anchor" id="how-to-compile-and-run"></a>
+How to compile and run</h1>
+<ol type="1">
+<li>Move into the build folder <div class="fragment"><div class="line">cd ./build</div>
+</div><!-- fragment --></li>
+<li>Execute cmake <div class="fragment"><div class="line">cmake ..</div>
+</div><!-- fragment --></li>
+<li>Build the project <div class="fragment"><div class="line">cmake --build .</div>
+</div><!-- fragment --></li>
+<li>Launch the PSO executable with a suitable test (a complete list of the available test is shown if no parameter is passed) <div class="fragment"><div class="line">./PSO [test_name]</div>
+</div><!-- fragment --> The execution of a test may produce an output file <code>test_name.csv</code> that can be found under the <code>output</code> folder.</li>
+<li>Plot the results in a graphical way passing to the <code>plot_csv.py</code> script only the filename of the .csv file <div class="fragment"><div class="line">python scripts/plot_csv.py test_name.csv</div>
+</div><!-- fragment --> </li>
+</ol>
+<h1><a class="anchor" id="available-tests"></a>
+Available tests</h1>
+<ul>
+<li><code>error_iteration</code>: Optimizes all the test functions with the same parameters both in serial and in parallel. Logs the error in function of the iterations count on the same optimizaiton loop for each function. Stores in the <code>error_iteration.csv</code> file all the errors in function of the iteration.</li>
+<li><code>time_numparticles</code>: Optimizes several time the same test function with same parameters varying only the number of particles. The optimization is done both in serial and in parallel and the time is taken to analyse the speedup. Stores in the <code>time_numparticles.csv</code> file all the execution times of the serial and parallel optimize function for each swarm size of particles.</li>
+<li><code>serial_parallel_opt</code>: Basic optimization of a given test function both in serial and in parallel. Prints in standard output the execution time and the achieved error. Does not saves any file.</li>
+</ul>
+<h1><a class="anchor" id="group-members"></a>
+Group members</h1>
+<ul>
+<li>Pierpaolo Marzo</li>
+<li>Domenico Santarsiero</li>
+<li>Alberto Guerrini </li>
+</ul>
+</div></div><!-- PageDoc -->
 </div><!-- contents -->
 </div><!-- doc-content -->
 <!-- start footer part -->

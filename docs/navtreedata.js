@@ -24,14 +24,8 @@
 */
 var NAVTREE =
 [
-  [ "PSO", "index.html", [
-    [ "AMSC project: Particle Swarm Optimization (PSO)", "md__r_e_a_d_m_e.html", [
-      [ "Description", "md__r_e_a_d_m_e.html#autotoc_md1", null ],
-      [ "Requirements", "md__r_e_a_d_m_e.html#autotoc_md2", null ],
-      [ "How to compile and run", "md__r_e_a_d_m_e.html#autotoc_md3", null ],
-      [ "Available tests", "md__r_e_a_d_m_e.html#autotoc_md4", null ],
-      [ "Group members", "md__r_e_a_d_m_e.html#autotoc_md5", null ]
-    ] ],
+  [ "PSO-marzo-santarsiero-guerrini", "index.html", [
+    [ "AMSC project: Particle Swarm Optimization (PSO)", "index.html", "index" ],
     [ "Classes", "annotated.html", [
       [ "Class List", "annotated.html", "annotated_dup" ],
       [ "Class Index", "classes.html", null ],
