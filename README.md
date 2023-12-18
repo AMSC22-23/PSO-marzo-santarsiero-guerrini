@@ -48,6 +48,9 @@ While a critical section is necessary at each update of the shared global best v
 - `time_numparticles`: Optimizes several time the same test function with same parameters varying only the number of particles. The optimization is done both in serial and in parallel and the time is taken to analyse the speedup. Stores in the `time_numparticles.csv` file all the execution times of the serial and parallel optimize function for each swarm size of particles.
 - `serial_parallel_opt`: Basic optimization of a given test function both in serial and in parallel. Prints in standard output the execution time and the achieved error. Does not saves any file.
 
+## Documentation
+The complete documentation of the public interface of our project can be consulted [here](https://amsc22-23.github.io/PSO-marzo-santarsiero-guerrini/).
+
 ## Group members
 - Pierpaolo Marzo
 - Domenico Santarsiero
