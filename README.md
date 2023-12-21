@@ -22,12 +22,12 @@ While a critical section is necessary at each update of the shared global best v
 - Python3
 
 ## How to compile and run
-1.  Create the needed folders
+1. Create the folders needed for building the project and saving the output `.csv` and `.png`
    ```
    mkdir build
    mkdir output
    ```
-3.  Move into the build folder
+2. Move into the build folder
    ```
    cd ./build
    ```
@@ -44,7 +44,7 @@ While a critical section is necessary at each update of the shared global best v
    ./PSO [test_name]
    ```
    The execution of a test may produce an output file `test_name.csv` that can be found under the `output` folder.
-7. Plot the results in a graphical way passing to the `plot_csv.py` script only the filename of the .csv file
+6. Plot the results in a graphical way passing to the `plot_csv.py` script only the filename of the .csv file
    ```
    cd ..
    python scripts/plot_csv.py test_name.csv
