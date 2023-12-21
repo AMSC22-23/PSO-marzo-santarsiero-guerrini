@@ -23,6 +23,8 @@ filepath = path.abspath(path.join(basepath, "..", "output", sys.argv[1]))
 # Read the CSV file using pandas
 data = pd.read_csv(filepath, comment='#', index_col=0)
 
+plt.figure(figsize=(12, 10))
+
 # Compose the title from the comments
 title = ""
 description = "("
@@ -61,9 +63,9 @@ else:
 ax.text(x=0.5, y=1.1, s=title, fontsize=16, weight='bold', ha='center', va='bottom', transform=ax.transAxes)
 ax.text(x=0.5, y=1.05, s=description, fontsize=8, alpha=0.75, ha='center', va='bottom', transform=ax.transAxes)
 
-if sys.argv[1] == "error_iterations.csv":
 
 # Save the plot in the output directory
+if sys.argv[1] == "error_iterations.csv":
 	plt.savefig(os.path.join(os.getcwd(), "output/error_iterations.png"))
 elif sys.argv[1] == "time_numparticles.csv":
 	plt.savefig(os.path.join(os.getcwd(), "output/time_numparticles.png"))
