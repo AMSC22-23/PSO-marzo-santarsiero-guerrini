@@ -51,11 +51,9 @@ While a critical section is necessary at each update of the shared global best v
    ```
 ## Available tests
 - `error_iteration`: Optimizes all the test functions with the same parameters both in serial and in parallel. Logs the error in function of the iterations count on the same optimizaiton loop for each function. Stores in the `error_iteration.csv` file all the errors in function of the iteration.
-
   > **Expected result**: It should show that the error decreases as the iteration count increases. The descent rate is random and starvation may be expected.
 
 - `time_numparticles`: Optimizes several time the same test function with same parameters varying only the number of particles. The optimization is done both in serial and in parallel and the time is taken to analyse the speedup. Stores in the `time_numparticles.csv` file all the execution times of the serial and parallel optimize function for each swarm size of particles.
-
   > **Expected result**: It should show that the excution time increases linearly in both serial and parallel case. In particular we expect that the parallel increase rate is less than 
   the serial one. Teoretically the coefficient of the parallel case should be $\frac{1}{num\ threads}$ of the serial one. The speedup converges to the theoretical result as the number 
   of particles increases. It never reach that result due to the thread handling overhead.
