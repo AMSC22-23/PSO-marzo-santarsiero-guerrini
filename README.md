@@ -22,31 +22,44 @@ While a critical section is necessary at each update of the shared global best v
 - Python3
 
 ## How to compile and run
-1. Move into the build folder
+1.  Create the needed folders
+   ```
+   mkdir build
+   mkdir output
+   ```
+3.  Move into the build folder
    ```
    cd ./build
    ```
-2. Execute cmake
+3. Execute cmake
    ```
    cmake ..
    ```
-3. Build the project
+4. Build the project
    ```
    cmake --build .
    ```
-4. Launch the PSO executable with a suitable test (a complete list of the available test is shown if no parameter is passed)
+5. Launch the PSO executable with a suitable test (a complete list of the available test is shown if no parameter is passed)
    ```
    ./PSO [test_name]
    ```
    The execution of a test may produce an output file `test_name.csv` that can be found under the `output` folder.
 7. Plot the results in a graphical way passing to the `plot_csv.py` script only the filename of the .csv file
    ```
+   cd ..
    python scripts/plot_csv.py test_name.csv
    ```
 ## Available tests
 - `error_iteration`: Optimizes all the test functions with the same parameters both in serial and in parallel. Logs the error in function of the iterations count on the same optimizaiton loop for each function. Stores in the `error_iteration.csv` file all the errors in function of the iteration.
+
+  > **Expected result**: It should show that the error decreases as the iteration count increases. The descent rate is random and starvation may be expected.
+
 - `time_numparticles`: Optimizes several time the same test function with same parameters varying only the number of particles. The optimization is done both in serial and in parallel and the time is taken to analyse the speedup. Stores in the `time_numparticles.csv` file all the execution times of the serial and parallel optimize function for each swarm size of particles.
+
+  > **Expected result**: It should show that the excution time increases linearly in both serial and parallel case. In particular we expect that the parallel increase rate is less than the serial one. Teoretically the coefficient of the parallel case should be $\frac{1}{num\ threads}$ of the serial one. The speedup converges to the theoretical result as the number of particles increases. It never reach that result due to the thread handling overhead.
+
 - `serial_parallel_opt`: Basic optimization of a given test function both in serial and in parallel. Prints in standard output the execution time and the achieved error. Does not saves any file.
+  > **Expected result**: It should show that the parallel version is faster than the serial one of about a factor of $num\ threads$. The error should be of the same magnitude, but may vary due to the rendomness of the method.
 
 ## Documentation
 The complete documentation of the public interface of our project can be consulted [here](https://amsc22-23.github.io/PSO-marzo-santarsiero-guerrini/).
