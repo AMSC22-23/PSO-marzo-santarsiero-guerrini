@@ -25,7 +25,8 @@ var NAVTREEINDEX0 =
 "index.html":[0],
 "index.html#available-tests":[0,3],
 "index.html#description":[0,0],
-"index.html#group-members":[0,4],
+"index.html#documentation":[0,4],
+"index.html#group-members":[0,5],
 "index.html#how-to-compile-and-run":[0,2],
 "index.html#requirements":[0,1],
 "pages.html":[]

@@ -114,6 +114,9 @@ Requirements</h1>
 <h1><a class="anchor" id="how-to-compile-and-run"></a>
 How to compile and run</h1>
 <ol type="1">
+<li>Create the folders needed for building the project and saving the output <code>.csv</code> and <code>.png</code> <div class="fragment"><div class="line">mkdir build</div>
+<div class="line">mkdir output</div>
+</div><!-- fragment --></li>
 <li>Move into the build folder <div class="fragment"><div class="line">cd ./build</div>
 </div><!-- fragment --></li>
 <li>Execute cmake <div class="fragment"><div class="line">cmake ..</div>
@@ -122,16 +125,29 @@ How to compile and run</h1>
 </div><!-- fragment --></li>
 <li>Launch the PSO executable with a suitable test (a complete list of the available test is shown if no parameter is passed) <div class="fragment"><div class="line">./PSO [test_name]</div>
 </div><!-- fragment --> The execution of a test may produce an output file <code>test_name.csv</code> that can be found under the <code>output</code> folder.</li>
-<li>Plot the results in a graphical way passing to the <code>plot_csv.py</code> script only the filename of the .csv file <div class="fragment"><div class="line">python scripts/plot_csv.py test_name.csv</div>
+<li>Plot the results in a graphical way passing to the <code>plot_csv.py</code> script only the filename of the .csv file <div class="fragment"><div class="line">cd ..</div>
+<div class="line">python scripts/plot_csv.py test_name.csv</div>
 </div><!-- fragment --> </li>
 </ol>
 <h1><a class="anchor" id="available-tests"></a>
 Available tests</h1>
 <ul>
-<li><code>error_iteration</code>: Optimizes all the test functions with the same parameters both in serial and in parallel. Logs the error in function of the iterations count on the same optimizaiton loop for each function. Stores in the <code>error_iteration.csv</code> file all the errors in function of the iteration.</li>
-<li><code>time_numparticles</code>: Optimizes several time the same test function with same parameters varying only the number of particles. The optimization is done both in serial and in parallel and the time is taken to analyse the speedup. Stores in the <code>time_numparticles.csv</code> file all the execution times of the serial and parallel optimize function for each swarm size of particles.</li>
-<li><code>serial_parallel_opt</code>: Basic optimization of a given test function both in serial and in parallel. Prints in standard output the execution time and the achieved error. Does not saves any file.</li>
+<li><code>error_iteration</code>: Optimizes all the test functions with the same parameters both in serial and in parallel. Logs the error in function of the iterations count on the same optimizaiton loop for each function. Stores in the <code>error_iteration.csv</code> file all the errors in function of the iteration. <blockquote class="doxtable">
+<p>&zwj;<b>Expected result</b>: It should show that the error decreases as the iteration count increases. The descent rate is random and starvation may be expected. </p>
+</blockquote>
+</li>
+<li><code>time_numparticles</code>: Optimizes several time the same test function with same parameters varying only the number of particles. The optimization is done both in serial and in parallel and the time is taken to analyse the speedup. Stores in the <code>time_numparticles.csv</code> file all the execution times of the serial and parallel optimize function for each swarm size of particles. <blockquote class="doxtable">
+<p>&zwj;<b>Expected result</b>: It should show that the excution time increases linearly in both serial and parallel case. In particular we expect that the parallel increase rate is less than the serial one. Teoretically the coefficient of the parallel case should be $\frac{1}{num\ threads}$ of the serial one. The speedup converges to the theoretical result as the number of particles increases. It never reach that result due to the thread handling overhead. </p>
+</blockquote>
+</li>
+<li><code>serial_parallel_opt</code>: Basic optimization of a given test function both in serial and in parallel. Prints in standard output the execution time and the achieved error. Does not saves any file. <blockquote class="doxtable">
+<p>&zwj;<b>Expected result</b>: It should show that the parallel version is faster than the serial one of about a factor of $num\ threads$. The error should be of the same magnitude, but may vary due to the rendomness of the method. </p>
+</blockquote>
+</li>
 </ul>
+<h1><a class="anchor" id="documentation"></a>
+Documentation</h1>
+<p>The complete documentation of the public interface of our project can be consulted <a href="https://amsc22-23.github.io/PSO-marzo-santarsiero-guerrini/">here</a>.</p>
 <h1><a class="anchor" id="group-members"></a>
 Group members</h1>
 <ul>
