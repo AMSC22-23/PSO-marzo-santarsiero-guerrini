@@ -9,7 +9,7 @@
 
 /**
  * @brief Class that represents a single particle in the swarm
- * 
+ *
  * @param _position the position of the particle in the search space
  * @param _velocity the velocity of the particle in the search space
  * @param _best_position the best position of all the particles in the search space
@@ -20,7 +20,7 @@
  * @param _best_value the value of the fitness function in the global best position
  * @param _random_generator the random number generator
  * @param _fitness_function the fitness function to be optimized
- * 
+ *
  * @tparam dim the dimension of the space in which the function is defined
  */
 template <std::size_t dim>
@@ -42,25 +42,31 @@ private:
 	double _upper_bound;
 	double _best_value;
 	std::mt19937 _random_generator;
-	std::function<double(std::array<double, dim>)> _fitness_function;
+	std::function<double(std::array<double, dim>&)> _fitness_function;
 
 public:
-
-	Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
+	/**
+	 * @brief Construct a new Particle object
+	 *
+	 * @param fitness_function the fitness function to optimize
+	 * @param lower_bound the lower bound of the search space, same for each dimension
+	 * @param upper_bound the upper bound of the search space, same for each dimension
+	 */
+	Particle(const std::function<double(std::array<double, dim>&)> &fitness_function,
 			 const double &lower_bound, const double &upper_bound);
 	Particle() = default;
 	~Particle() = default;
 
 	/**
 	 * @brief Initialize the particle velocity and position according to uniform distribution
-	 * 
+	 *
 	 * @return double representing the value of the fitness function in the initial position of the particle
 	 */
 	double initialize();
 
 	/**
 	 * @brief Update velocity and position of the particle
-	 * 
+	 *
 	 * @param global_best_position the best position of the swarm
 	 * @param w the inertia weight
 	 * @param c1 the cognitive parameter
@@ -76,6 +82,7 @@ public:
 	const Vector &get_position() const { return _position; }
 	const double &get_best_value() const { return _best_value; }
 	const Vector &get_best_position() const { return _best_position; }
+
 };
 
 #include "../src/Particle.cpp"

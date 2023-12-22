@@ -2,7 +2,7 @@
 
 template <std::size_t dim>
 ParticleSwarmOptimization<dim>::ParticleSwarmOptimization(
-    const std::function<double(std::array<double, dim>)> &fitness_function, int n,
+    const std::function<double(std::array<double, dim>&)> &fitness_function, int n,
     int max_iter, double lower_bound, double upper_bound,
     double tolerance, double inertia_weight, double c1, double c2)
     : _fitness_function(fitness_function),

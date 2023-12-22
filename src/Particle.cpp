@@ -2,7 +2,7 @@
 // #include "../include/Particle.hpp"
 
 template <std::size_t dim>
-Particle<dim>::Particle(const std::function<double(std::array<double, dim>)> &fitness_function,
+Particle<dim>::Particle(const std::function<double(std::array<double, dim>&)> &fitness_function,
                         const double &lower_bound, const double &upper_bound)
     : _fitness_function(fitness_function),
       _lower_bound(lower_bound),

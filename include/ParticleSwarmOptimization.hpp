@@ -8,7 +8,7 @@
 
 /**
  * @brief Class that represents the Particle Swarm Optimization algorithm.
- * 
+ *
  * @param fitness_function the fitness function to be optimized
  * @param n the number of particles in the swarm
  * @param max_iter the maximum number of iterations
@@ -21,7 +21,7 @@
  * @param swarm the vector of Particle<dim> objects, containing the swarm's particles
  * @param global_best_value the best value of the fitness function found by the swarm
  * @param global_best_position the best position of the fitness function found by the swarm
- * 
+ *
  * @tparam dim the dimension of the space in which the function is defined
  */
 template <std::size_t dim>
@@ -30,7 +30,7 @@ class ParticleSwarmOptimization
 	typedef std::array<double, dim> Vector;
 
 private:
-	const std::function<double(std::array<double, dim>)> _fitness_function;
+	const std::function<double(std::array<double, dim>&)> _fitness_function;
 	int _n;
 	int _max_iter;
 	double _lower_bound;
@@ -43,7 +43,7 @@ private:
 	std::vector<Particle<dim>> _swarm;
 
 public:
-	ParticleSwarmOptimization(const std::function<double(std::array<double, dim>)> &fitness_function, int n,
+	ParticleSwarmOptimization(const std::function<double(std::array<double, dim>&)> &fitness_function, int n,
 							  int max_iter, double lower_bound, double upper_bound, double _tolerance,
 							  double _inertia_weight, double _c1, double _c2);
 	~ParticleSwarmOptimization() = default;

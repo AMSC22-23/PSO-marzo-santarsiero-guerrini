@@ -19,7 +19,7 @@ int error_iterations_test()
 	// Collect data for error-iteration plot with different functions
 	// Initialize the file
 	std::ofstream file_out;
-	file_out.open("../output/error_iteration.csv");
+	file_out.open("../output/error_iterations.csv");
 	if (!file_out)
 	{
 		std::cout << "Error opening file" << std::endl;
