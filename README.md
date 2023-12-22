@@ -44,10 +44,10 @@ While a critical section is necessary at each update of the shared global best v
    ./PSO [test_name]
    ```
    The execution of a test may produce an output file `test_name.csv` that can be found under the `output` folder.
-6. Plot the results in a graphical way passing to the `plot_csv.py` script only the filename of the .csv file
+6. Plot the results in a graphical way passing to the `csv_ploter.py` script only the filename of the .csv file
    ```
    cd ..
-   python scripts/plot_csv.py test_name.csv
+   python scripts/csv_plotter.py test_name.csv
    ```
 ## Available tests
 - `error_iteration`: Optimizes all the test functions with the same parameters both in serial and in parallel. Logs the error in function of the iterations count on the same optimizaiton loop for each function. Stores in the `error_iteration.csv` file all the errors in function of the iteration.
