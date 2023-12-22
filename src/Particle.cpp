@@ -1,33 +1,32 @@
-
-// #include "../include/Particle.hpp"
+#include "Particle.hpp"
 
 template <std::size_t dim>
 Particle<dim>::Particle(const std::function<double(std::array<double, dim>&)> &fitness_function,
                         const double &lower_bound, const double &upper_bound)
-    : _fitness_function(fitness_function),
-      _lower_bound(lower_bound),
-      _upper_bound(upper_bound)
+    : fitness_function_(fitness_function),
+      lower_bound_(lower_bound),
+      upper_bound_(upper_bound)
 {
     std::random_device rand_dev;
     std::mt19937 generator(rand_dev());
-    _random_generator = generator;
+    random_generator_ = generator;
 }
 
 template <std::size_t dim>
 double Particle<dim>::initialize()
 {
     // Create the uniform double generator in the range [lower_bound, upper_bound]
-    std::uniform_real_distribution<double> distr(_lower_bound, _upper_bound);
+    std::uniform_real_distribution<double> distr(lower_bound_, upper_bound_);
     // Initialize the position and velocity vectors
-    std::generate(_position.begin(), _position.end(), [&]()
-                  { return distr(_random_generator); });
-    std::generate(_velocity.begin(), _velocity.end(), [&]()
-                  { return distr(_random_generator); });
+    std::generate(position_.begin(), position_.end(), [&]()
+                  { return distr(random_generator_); });
+    std::generate(velocity_.begin(), velocity_.end(), [&]()
+                  { return distr(random_generator_); });
     // Initialize the best position
-    _best_position = _position;
+    best_position_ = position_;
     // Initialize the best value
-    _best_value = _fitness_function(_best_position);
-    return _best_value;
+    best_value_ = fitness_function_(best_position_);
+    return best_value_;
 }
 
 template <std::size_t dim>
@@ -36,63 +35,63 @@ double Particle<dim>::update(const Vector &global_best_position, const double &w
     //  Create the uniform double generator in the range [lower_bound, upper_bound]
     std::uniform_real_distribution<double> distr(0, 1);
     // Initialize the position and velocity vectors
-    std::generate(_r1.begin(), _r1.end(), [&]()
-                  { return distr(_random_generator); });
-    std::generate(_r2.begin(), _r2.end(), [&]()
-                  { return distr(_random_generator); });
+    std::generate(r1_.begin(), r1_.end(), [&]()
+                  { return distr(random_generator_); });
+    std::generate(r2_.begin(), r2_.end(), [&]()
+                  { return distr(random_generator_); });
 
     // For each dimension
-    for (std::size_t i = 0; i < _velocity.size(); ++i)
+    for (std::size_t i = 0; i < velocity_.size(); ++i)
     {
         // Velocity update
-        _velocity[i] = w * _velocity[i] + c1 * _r1[i] * (_best_position[i] - _position[i]) + c2 * _r2[i] * (global_best_position[i] - _position[i]);
+        velocity_[i] = w * velocity_[i] + c1 * r1_[i] * (best_position_[i] - position_[i]) + c2 * r2_[i] * (global_best_position[i] - position_[i]);
 
         // Position update
-        _position[i] += _velocity[i];
+        position_[i] += velocity_[i];
         // Check boundaries
-        if (_position[i] < _lower_bound)
-            _position[i] = _lower_bound;
-        else if (_position[i] > _upper_bound)
-            _position[i] = _upper_bound;
+        if (position_[i] < lower_bound_)
+            position_[i] = lower_bound_;
+        else if (position_[i] > upper_bound_)
+            position_[i] = upper_bound_;
     }
 
     // Update best position if necessary
-    double current_value = _fitness_function(_position);
-    if (current_value < _best_value)
+    double current_value = fitness_function_(position_);
+    if (current_value < best_value_)
     {
-        _best_position = _position;
-        _best_value = current_value;
+        best_position_ = position_;
+        best_value_ = current_value;
     }
 
     // Return the value of the fitness function in the best position
-    return _best_value;
+    return best_value_;
 }
 
 template <std::size_t dim>
 void Particle<dim>::print() const
 {
     std::cout << "Position:\t(";
-    for (auto &i : _position)
+    for (auto &i : position_)
     {
         std::cout << i << ", ";
     }
     std::cout << "\b\b)" << std::endl;
 
     std::cout << "Velocity:\t(";
-    for (auto &i : _velocity)
+    for (auto &i : velocity_)
     {
         std::cout << i << ", ";
     }
     std::cout << "\b\b)" << std::endl;
 
     std::cout << "Best position:\t(";
-    for (auto &i : _best_position)
+    for (auto &i : best_position_)
     {
         std::cout << i << ", ";
     }
     std::cout << "\b\b)" << std::endl;
 
-    std::cout << "Best value:\t" << _best_value << std::endl;
+    std::cout << "Best value:\t" << best_value_ << std::endl;
     std::cout << std::endl;
 }
 

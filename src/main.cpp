@@ -1,5 +1,5 @@
-#include "../include/ParticleSwarmOptimization.hpp"
-#include "../include/TestFunctions.hpp"
+#include "ParticleSwarmOptimization.hpp"
+#include "TestFunctions.hpp"
 #include <iostream>
 #include <fstream>
 #include <chrono>

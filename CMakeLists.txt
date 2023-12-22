@@ -20,7 +20,7 @@ project(
   LANGUAGES CXX)
 
 # set include directory
-include_directories(/include)
+include_directories(include src)
 
 #iterate over libraries and add them (not needed)
 foreach(LIBRARY ${LIBRARIES})

@@ -30,22 +30,22 @@ class ParticleSwarmOptimization
 	typedef std::array<double, dim> Vector;
 
 private:
-	const std::function<double(std::array<double, dim>&)> _fitness_function;
-	int _n;
-	int _max_iter;
-	double _lower_bound;
-	double _upper_bound;
-	double _tolerance;
-	double _intertia_weight;
-	double _c1, _c2;
-	double _global_best_value;
-	Vector _global_best_position;
-	std::vector<Particle<dim>> _swarm;
+	const std::function<double(std::array<double, dim>&)> fitness_function_;
+	int n_;
+	int max_iter_;
+	double lower_bound_;
+	double upper_bound_;
+	double tolerance_;
+	double inertia_weight_;
+	double c1_, c2_;
+	double global_best_value_;
+	Vector global_best_position_;
+	std::vector<Particle<dim>> swarm_;
 
 public:
 	ParticleSwarmOptimization(const std::function<double(std::array<double, dim>&)> &fitness_function, int n,
-							  int max_iter, double lower_bound, double upper_bound, double _tolerance,
-							  double _inertia_weight, double _c1, double _c2);
+							  int max_iter, double lower_bound, double upper_bound, double tolerance_,
+							  double _inertia_weight, double c1_, double c2_);
 	~ParticleSwarmOptimization() = default;
 
 	/**
@@ -85,11 +85,11 @@ public:
 	int optimize_parallel(std::vector<double> &history, const int interval = 50);
 
 	// getters
-	const Vector &get_global_best_position() const { return _global_best_position; }
-	const double &get_global_best_value() const { return _global_best_value; }
-	const int &get_iter() const { return _max_iter; }
-	const double &get_tolerance() const { return _tolerance; }
+	const Vector &get_global_best_position() const { return global_best_position_; }
+	const double &get_global_best_value() const { return global_best_value_; }
+	const int &get_iter() const { return max_iter_; }
+	const double &get_tolerance() const { return tolerance_; }
 	};
 
-#include "../src/ParticleSwarmOptimization.cpp"
+#include "ParticleSwarmOptimization.cpp"
 #endif

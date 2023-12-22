@@ -10,16 +10,16 @@
 /**
  * @brief Class that represents a single particle in the swarm
  *
- * @param _position the position of the particle in the search space
- * @param _velocity the velocity of the particle in the search space
- * @param _best_position the best position of all the particles in the search space
- * @param _r1 the first random vector used in the update
- * @param _r2 the second random vector used in the update
- * @param _lower_bound the lower bound of the search space
- * @param _upper_bound the upper bound of the search space
- * @param _best_value the value of the fitness function in the global best position
- * @param _random_generator the random number generator
- * @param _fitness_function the fitness function to be optimized
+ * @paramposition_ the position of the particle in the search space
+ * @param velocity_ the velocity of the particle in the search space
+ * @param best_position_ the best position of all the particles in the search space
+ * @param r1_ the first random vector used in the update
+ * @param r2_ the second random vector used in the update
+ * @param lower_bound_ the lower bound of the search space
+ * @param upper_bound_ the upper bound of the search space
+ * @param best_value_ the value of the fitness function in the global best position
+ * @param random_generator_ the random number generator
+ * @param fitness_function_ the fitness function to be optimized
  *
  * @tparam dim the dimension of the space in which the function is defined
  */
@@ -33,16 +33,16 @@ class Particle
 	typedef std::array<double, dim> Vector;
 
 private:
-	Vector _position;
-	Vector _velocity;
-	Vector _best_position;
-	Vector _r1;
-	Vector _r2;
-	double _lower_bound;
-	double _upper_bound;
-	double _best_value;
-	std::mt19937 _random_generator;
-	std::function<double(std::array<double, dim>&)> _fitness_function;
+	Vector position_;
+	Vector velocity_;
+	Vector best_position_;
+	Vector r1_;
+	Vector r2_;
+	double lower_bound_;
+	double upper_bound_;
+	double best_value_;
+	std::mt19937 random_generator_;
+	std::function<double(std::array<double, dim>&)> fitness_function_;
 
 public:
 	/**
@@ -79,11 +79,11 @@ public:
 	void print() const;
 
 	// getters
-	const Vector &get_position() const { return _position; }
-	const double &get_best_value() const { return _best_value; }
-	const Vector &get_best_position() const { return _best_position; }
+	const Vector &get_position() const { return position_; }
+	const double &get_best_value() const { return best_value_; }
+	const Vector &get_best_position() const { return best_position_; }
 
 };
 
-#include "../src/Particle.cpp"
+#include "Particle.cpp"
 #endif

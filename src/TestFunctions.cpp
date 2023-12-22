@@ -1,4 +1,4 @@
-#include "../include/TestFunctions.hpp"
+#include "TestFunctions.hpp"
 
 // N-dimensional sphere function
 // Global minimum at f(0,...,0) = 1
@@ -10,7 +10,7 @@ double TestFunctions::sphere(const std::array<double, dim> &x)
 	{
 		sum += i * i;
 	}
-	return sum+1.0;
+	return sum + 1.0;
 }
 
 // N-dimensional rastrigin function
@@ -23,7 +23,7 @@ double TestFunctions::rastrigin(const std::array<double, dim> &x)
 	{
 		sum += (i * i - 10 * cos(2 * M_PI * i));
 	}
-	return (10 * x.size() + sum)+1.0;
+	return (10 * x.size() + sum) + 1.0;
 }
 
 // N-dimensional ackley function
@@ -38,7 +38,7 @@ double TestFunctions::ackley(const std::array<double, dim> &x)
 		sum1 += i * i;
 		sum2 += cos(2 * M_PI * i);
 	}
-	return (-20 * exp(-0.2 * sqrt(sum1 / x.size())) - exp(sum2 / x.size()) + 20 + M_E)+1.0;
+	return (-20 * exp(-0.2 * sqrt(sum1 / x.size())) - exp(sum2 / x.size()) + 20 + M_E) + 1.0;
 }
 
 // get standard domain bounds for a given function
