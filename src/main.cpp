@@ -11,7 +11,7 @@ int error_iterations_test()
 {
 	constexpr int particles = 62;
 	constexpr double inertia = 0.6571;
-	constexpr double max_iter = 1000;
+	constexpr double max_iter =2000;
 	constexpr double c1 = 1.6319;
 	constexpr double c2 = 0.6239;
 
